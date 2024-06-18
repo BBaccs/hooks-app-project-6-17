@@ -1,24 +1,80 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useEffect, useState } from 'react';
+import { Paper, Grid, Button, Container } from '@mui/material';
+import CharacterCard from './components/CharacterCard';
+import TitanCard from './components/TitanCard';
+import LocationCard from './components/LocationCard';
+import OrganizationCard from './components/OrganizationCard';
+import EpisodeCard from './components/EpisodeCard';
 
 function App() {
+  const baseUrl = {
+    "characters": "https://api.attackontitanapi.com/characters",
+    "locations": "https://api.attackontitanapi.com/locations",
+    "organizations": "https://api.attackontitanapi.com/organizations",
+    "titans": "https://api.attackontitanapi.com/titans",
+    "episodes": "https://api.attackontitanapi.com/episodes"
+  }
+
+  const [apiData, setData] = useState({ results: [] });
+  const [dataType, setDataType] = useState('characters');
+
+  async function fetchData(param = 'characters') {
+    const url = baseUrl[param];
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        console.log('error');
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      const apiData = await response.json();
+      setData(apiData);
+      setDataType(dataType);
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchData(dataType);
+  }, [dataType]);
+
+  const getCardComponent = (data) => {
+    switch (dataType) {
+      case 'characters':
+        return <CharacterCard data={data} />;
+      case 'titans':
+        return <TitanCard data={data} />;
+      case 'locations':
+        return <LocationCard data={data} />;
+      case 'organizations':
+        return <OrganizationCard data={data} />;
+      case 'episodes':
+        return <EpisodeCard data={data} />;
+      // default:
+      //   return <CharacterCard data={data} />; // Default case
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container maxWidth="lg" style={{ marginTop: '20px' }}>
+      <Paper elevation={3} style={{ padding: '20px' }}>
+        <h1 style={{ textAlign: 'center' }}>Attack on Titan API</h1>
+        <Button variant="contained" onClick={() => setDataType('characters')}>Characters</Button>
+        <Button variant="contained" onClick={() => setDataType('locations')}>Locations</Button>
+        <Button variant="contained" onClick={() => setDataType('organizations')}>Organizations</Button>
+        <Button variant="contained" onClick={() => setDataType('titans')}>Titans</Button>
+        <Button variant="contained" onClick={() => setDataType('episodes')}>Episodes</Button>
+        <br />
+        <Grid container spacing={2} justifyContent="center">
+          {apiData.results.map((data, index) => (
+            <Grid item xs={12} sm={6} md={(index % 2 === 0) ? 8 : 4} key={data.id}>
+              {getCardComponent(data)}
+            </Grid>
+          ))}
+        </Grid>
+      </Paper>
+    </Container>
   );
 }
 
