@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Typography, Button, CardActions, CardMedia } from '@mui/material';
+import './../App.css';
 
 function EpisodeCard({ data }) {
   const [characterData, setCharacterData] = useState([]);
-  const [showNames, setShowNames] = useState({ showNames: false });
+  const [showNames, setShowNames] = useState({});
 
-  async function fetchData(urlArr) {
+  async function fetchData(urlArr, cardId) {
     try {
       const promises = urlArr.map(url => fetch(url).then(response => {
         if (!response.ok) {
@@ -14,23 +15,20 @@ function EpisodeCard({ data }) {
         return response.json();
       }));
       const results = await Promise.all(promises);
-      setCharacterData(results); // Assuming you want to store all fetched data
-      results.forEach(character => {
-        // console.log(character.name);
-      });
-      // console.log(results.map(char => <p>{char.name}</p>));
+      setCharacterData(results);
+      handleClick(cardId);
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
-      setCharacterData([]); // Clear previous data or handle error state
+      setCharacterData([]);
     }
   }
 
-const handleClick = (e, characters) => {
-  console.log(e.target.id);  // Now, e.target should correctly point to the button
+const handleClick = (id) => {
   setShowNames(prevData => ({
     ...prevData,
-    showNames: !prevData.showNames
+    [id]: !prevData[id]
   }));
+  console.log(showNames[id], id)
 };
 
 
@@ -51,15 +49,13 @@ return (
       </Typography>
     </CardContent>
     <CardActions>
-      <Button onClick={() => fetchData(data.characters)} size="large">Show Character List</Button>
-      <Button onClick={(e) => handleClick(e, data.characters)} size="large">Hide List</Button>
-
+      <Button onClick={() => fetchData(data.characters, data.id)} size="large">{showNames[data.id] ? 'hide' : 'show'} Characters List</Button>
+      {/* <Button onClick={() => handleClick(data.id)} size="large">Hide List</Button> */}
     </CardActions>
-    <Typography>
-    {/* <Typography style={showNames.showNames ?  {display: 'block'} : {display: 'none'}}> */}
-      <ul>
+    <>
+      <ul id={data.id} className={showNames[data.id] ? 'show' : 'hide'}> 
         {characterData.map((char, index) =>
-          <li key={index}>
+          <li className="mb-2" key={index}>
             <span><b>Name:</b> {char.name}</span>
             <span style={{ display: 'block' }}>
               {char.age === 'unknown' || !char.age ? '' : <><b>Age:</b> {char.age}</>}
@@ -67,16 +63,9 @@ return (
           </li>
         )}
       </ul>
-    </Typography>
+    </>
   </Card>
 );
 }
 
 export default EpisodeCard;
-
-
-//ARR
-// data.character
-
-// OBJ
-// https://api.attackontitanapi.com/characters/1
