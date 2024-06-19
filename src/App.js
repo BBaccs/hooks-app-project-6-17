@@ -67,9 +67,9 @@ function App() {
           <Button variant="contained" onClick={() => setDataType('titans')}>Titans</Button>
           <Button variant="contained" onClick={() => setDataType('episodes')}>Episodes</Button>
         </Container>
-        <Grid container spacing={2} >
+        <Grid container>
           {apiData.results.map((data, index) => (
-            <Grid item xs={12} sm={6} md={(index % 2 === 0) ? 8 : 4} key={data.id}>
+            <Grid item xs={12} sm={6} md={6} key={data.id}>
               {getCardComponent(data)}
             </Grid>
           ))}
