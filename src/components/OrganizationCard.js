@@ -42,7 +42,7 @@ function OrganizationCard({ data }) {
       </CardContent>
       <CardActions>
         {hasNotableMembers ? (
-          <Button onClick={() => fetchData(data.notable_members, data.id)} size="large">Notable Members</Button>
+          <Button onClick={() => fetchData(data.notable_members, data.id)} size="large">{showNames[data.id] ? 'hide' : 'show'} Notable Members</Button>
         ) : (
           <p>No known notable members</p>
         )}
