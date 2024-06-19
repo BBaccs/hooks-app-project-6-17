@@ -28,8 +28,19 @@ const handleClick = (id) => {
     ...prevData,
     [id]: !prevData[id]
   }));
-  console.log(showNames[id], id)
+  // console.log(showNames[id], id)
 };
+
+function cleanImageUrl(url) {
+  console.log(url)
+  const indexOfPng = url.indexOf('.png');
+  if (indexOfPng !== -1) {
+    // Add 4 because `.png` has 4 characters
+    return url.substring(0, indexOfPng + 4);
+  }
+  return url; // Return the original URL if .png is not found
+}
+
 
 
 return (
@@ -39,7 +50,7 @@ return (
         component="img"
         alt={data.name}
         height="140"
-        image={data.img}
+        image={cleanImageUrl(data.img)}
       />
       <Typography gutterBottom variant="h5" component="div">
         <b>Title:</b> {data.name}
@@ -50,7 +61,7 @@ return (
     </CardContent>
     <CardActions>
       <Button onClick={() => fetchData(data.characters, data.id)} size="large">{showNames[data.id] ? 'hide' : 'show'} Characters List</Button>
-      {/* <Button onClick={() => handleClick(data.id)} size="large">Hide List</Button> */}
+
     </CardActions>
     <>
       <ul id={data.id} className={showNames[data.id] ? 'show' : 'hide'}> 
