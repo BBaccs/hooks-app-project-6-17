@@ -18,9 +18,11 @@ function App() {
 
   const [apiData, setData] = useState({ results: [] });
   const [dataType, setDataType] = useState('characters');
+  const [isFetching, setIsFetching] = useState(true);
 
-  async function fetchData(param = 'characters') {
+  async function fetchData2(param = 'characters') {
     const url = baseUrl[param];
+    setIsFetching(true);
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -33,29 +35,35 @@ function App() {
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
     }
+    finally {
+      setIsFetching(false);
+      console.log(2, isFetching)
+    }
   }
 
   useEffect(() => {
-    fetchData(dataType);
+    fetchData2(dataType);
   }, [dataType]);
 
   const getCardComponent = (data) => {
+    const props = { data, isFetching };
+  
     switch (dataType) {
       case 'characters':
-        return <CharacterCard data={data} />;
+        return <CharacterCard {...props} />;
       case 'titans':
-        return <TitanCard data={data} />;
+        return <TitanCard {...props} />;
       case 'locations':
-        return <LocationCard data={data} />;
+        return <LocationCard {...props} />;
       case 'organizations':
-        return <OrganizationCard data={data} />;
+        return <OrganizationCard {...props} />;
       case 'episodes':
-        return <EpisodeCard data={data} />;
+        return <EpisodeCard {...props} />;
       // default:
-      //   return <CharacterCard data={data} />; // Default case
+      //   return <CharacterCard {...props} />;
     }
   };
-
+  
   return (
     <Container maxWidth="lg" style={{ marginTop: '20px' }}>
       <Paper elevation={3} style={{ padding: '20px' }}>
