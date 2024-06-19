@@ -53,3 +53,20 @@
 img.css-o69gx8-MuiCardMedia-root {
   object-fit: inherit;
 }
+
+.btn-container {
+  padding: 0px;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.btn-container button {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+button {
+  background-color: black !important;
+  color: white !important;
+  padding: .5rem !important;
+}

@@ -60,14 +60,13 @@ function App() {
     <Container maxWidth="lg" style={{ marginTop: '20px' }}>
       <Paper elevation={3} style={{ padding: '20px' }}>
         <h1 style={{ textAlign: 'center' }}>Attack on Titan API</h1>
-        <Button variant="contained" onClick={() => setDataType('characters')}>Characters</Button>
-        <Button variant="contained" onClick={() => setDataType('locations')}>Locations</Button>
-        <Button variant="contained" onClick={() => setDataType('organizations')}>Organizations</Button>
-        <Button variant="contained" onClick={() => setDataType('titans')}>Titans</Button>
-        <Button variant="contained" onClick={() => setDataType('episodes')}>Episodes</Button>
-        <br />
-        <br />
-        <br />
+        <Container maxWidth="md" className='btn-container'>
+          <Button variant="contained" onClick={() => setDataType('characters')}>Characters</Button>
+          <Button variant="contained" onClick={() => setDataType('locations')}>Locations</Button>
+          <Button variant="contained" onClick={() => setDataType('organizations')}>Organizations</Button>
+          <Button variant="contained" onClick={() => setDataType('titans')}>Titans</Button>
+          <Button variant="contained" onClick={() => setDataType('episodes')}>Episodes</Button>
+        </Container>
         <Grid container spacing={2} >
           {apiData.results.map((data, index) => (
             <Grid item xs={12} sm={6} md={(index % 2 === 0) ? 8 : 4} key={data.id}>
