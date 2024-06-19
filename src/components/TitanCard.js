@@ -1,14 +1,15 @@
 import React from 'react';
 import { Card, CardActions, CardContent, CardMedia, Typography, Button } from '@mui/material';
+import cleanImageUrl from '../Utilities/cleanImageUrl';
 
 function TitanCard({ data }) {
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardMedia
                 component="img"
-                alt={data.name}
+                alt=""
                 height="140"
-                image={data.img}
+                image={cleanImageUrl(data.img)}
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">

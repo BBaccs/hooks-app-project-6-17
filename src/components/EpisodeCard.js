@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Typography, Button, CardActions, CardMedia } from '@mui/material';
+import cleanImageUrl from '../Utilities/cleanImageUrl';
 import './../App.css';
 
 function EpisodeCard({ data }) {
@@ -30,15 +31,6 @@ function EpisodeCard({ data }) {
       [id]: !prevData[id]
     }));
   };
-
-  function cleanImageUrl(url) {
-    if (!url) return '/logo512.png'; // Add a placeholder img here
-    const indexOfPng = url.indexOf('.png');
-    if (indexOfPng !== -1) {
-      return url.substring(0, indexOfPng + 4);
-    }
-    return url;
-  }
 
   return (
     <Card key={data.id} sx={{ maxWidth: 345 }}>

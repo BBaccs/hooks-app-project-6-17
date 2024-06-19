@@ -49,3 +49,7 @@
 .mb-2 {
   margin-bottom: 10px;
 }
+
+img.css-o69gx8-MuiCardMedia-root {
+  object-fit: inherit;
+}

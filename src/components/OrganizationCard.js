@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography, Button, CardActions } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import cleanImageUrl from '../Utilities/cleanImageUrl';
 
 function OrganizationCard({ data }) {
   return (
@@ -8,7 +9,7 @@ function OrganizationCard({ data }) {
         component="img"
         alt={data.name}
         height="140"
-        image={data.img || '/default-organization-image.jpg'} // Placeholder image if the link is broken
+        image={cleanImageUrl(data.img) || '/placeholder.webp'} // Placeholder image if the link is broken
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
