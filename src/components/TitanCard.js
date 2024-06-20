@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardActions, CardContent, CardMedia, Typography, Button } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 
@@ -66,7 +66,6 @@ function TitanCard({ data }) {
                             ))
                         )}
                     </ul>
-                    {console.log(characterData)}
                 </Typography>
 
             </CardContent>

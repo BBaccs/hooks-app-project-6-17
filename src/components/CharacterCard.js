@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardActions, CardContent, CardMedia, Typography, Button } from '@mui/material';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 
 function CharacterCard({ data }) {
+  const [toggleAlias, setToggleAlias] = useState(false);
   const { id, name, height, age, roles, img, alias, groups } = data;
   const subGroups = groups && groups.length > 0 ? groups[0].sub_groups : [];
+
   return (
     <Card id={id} sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -27,13 +29,15 @@ function CharacterCard({ data }) {
         {subGroups.length > 0 && (
           <Typography>Sub Groups: {subGroups}</Typography>
         )}
-        {alias.length > 0 && (
-          <Typography>Alias: {alias}</Typography>
-        )}
       </CardContent>
       <CardActions>
-        {/* <Button onClick={() => fetchData()} size="small">Learn More</Button> */}
+        <Button onClick={() => setToggleAlias(!toggleAlias)} size="small">Learn More</Button>
       </CardActions>
+      {toggleAlias && (
+        <Typography>
+          {alias.length > 0 ? `Alias: ${alias}` : "No Alias"}
+        </Typography>
+      )}
     </Card>
   );
 }
