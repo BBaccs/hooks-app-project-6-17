@@ -16,20 +16,18 @@ function App() {
     "episodes": "https://api.attackontitanapi.com/episodes"
   }
 
-  const [apiData, setData] = useState({ results: [] });
-  const [dataType, setDataType] = useState('characters');
+  const [apiData, setData] = useState({ results: [] })
+  const [dataType, setDataType] = useState('');
 
-  async function fetchData(param = 'characters') {
+  async function fetchData(param) {
     const url = baseUrl[param];
     try {
       const response = await fetch(url);
       if (!response.ok) {
-        console.log('error');
         throw new Error('Network response was not ok ' + response.statusText);
       }
       const apiData = await response.json();
       setData(apiData);
-      setDataType(dataType);
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
     }
