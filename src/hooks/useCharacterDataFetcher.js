@@ -17,16 +17,17 @@ export default function useCharacterDataFetcher() {
             }));
             const results = await Promise.all(promises);
             if (charType === 'current') {
-                setCharacterData({ current: [results], former: [] });
-            }  if (charType === 'former') {
-                setCharacterData({ current: [], former: [results] });
-            } else if (!charType) {
-                setCharacterData(results);
+                setCharacterData(prevProps => ({ ...prevProps, current: results, former: prevProps.former }));
+            } else if (charType === 'former') {
+                setCharacterData(prevProps => ({ ...prevProps, current: prevProps.current, former: results }));
+            } else {
+                // If charType is 'none', it will update both current and former
+                setCharacterData({ current: results, former: results });
             }
             toggleShowNames(cardId);
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
-            setCharacterData([]);
+            setCharacterData({ current: [], former: [] });
         }
     };
 

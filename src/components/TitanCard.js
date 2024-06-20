@@ -10,7 +10,6 @@ function TitanCard({ data }) {
     useEffect(() => {
         // Check if current_inheritor is undefined or it will throw an error
         if (current_inheritor) {
-            // console.log(current_inheritor)
             fetchData(current_inheritor, id, 'current');
         }
     }, [current_inheritor]);
@@ -21,7 +20,7 @@ function TitanCard({ data }) {
         }
     }, [former_inheritors]);
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ maxWidth: 345, marginTop: '40px' }}>
             <CardMedia
                 component="img"
                 alt=""
@@ -54,20 +53,21 @@ function TitanCard({ data }) {
                 <Typography>
                     {characterData.current && characterData.current.length > 0 && (
                         characterData.current.map((char) => (
-                            <p key={char[0].id}>Current Inheritor: {char[0].name}</p>
+                            <Typography key={char.id}>Current Inheritor: {char.name}</Typography>
                         ))
                     )}
                 </Typography>
-                {/* <Typography>
+                <Typography>
                     <p><b>Former Inheritors:</b></p>
                     <ul>
-                        {characterData && characterData.length > 0 && (
-                            characterData.map((char) => (
+                        {characterData.former && characterData.former.length > 0 && (
+                            characterData.former.map((char) => (
                                 <li key={char.id}>{char.name}</li>
                             ))
                         )}
                     </ul>
-                </Typography> */}
+                    {console.log(characterData)}
+                </Typography>
 
             </CardContent>
         </Card>
