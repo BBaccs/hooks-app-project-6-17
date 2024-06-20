@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardActions, CardContent, CardMedia, Typography, Button } from '@mui/material';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
+import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 
 function TitanCard({ data }) {
+    const { characterData, showNames, fetchData } = useCharacterDataFetcher();
+    const { name, height, abilities, relatives, allegiance, former_inheritors, current_inheritor, id } = data;
+    // useEffect(() => {
+    //     // Check if current_inheritor is undefined or it will throw an error
+    //     if (current_inheritor) {
+    //         fetchData(current_inheritor);
+    //     }
+    // }, [current_inheritor, id]);
+    
+    useEffect(() => {
+        if (former_inheritors) {
+            fetchData(former_inheritors);
+        }
+    }, [former_inheritors, id]);
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardMedia
@@ -13,29 +28,42 @@ function TitanCard({ data }) {
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    {data.name}
+                    {name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    Height: {data.height}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    Age: {data.age}
+                    Height: {height}
                 </Typography>
                 <Typography>
-                    {data.relatives && data.relatives[0] && JSON.stringify(data.relatives[0].family)}
+                    {relatives && relatives[0] && JSON.stringify(relatives[0].family)}
                 </Typography>
                 <Typography>
                     Abilities:
-                    {data.abilities && data.abilities.length > 0 && (
+                    {abilities && abilities.length > 0 && (
                         <ul>
-                            {data.abilities.map((ability) => (
+                            {abilities.map((ability) => (
                                 <li key={ability}>{ability}</li>
                             ))}
                         </ul>
                     )}
                 </Typography>
                 <Typography>
-                    Former Inheritor: {console.log(data.former_inheritors)}
+                    Loyal to: {allegiance}
+                </Typography>
+                <Typography>
+                    {/* {characterData && characterData.length > 0 && (
+                        characterData.map((char) => (
+                            <p>Current Inheritor: {char.name}</p>
+                        ))
+                    )} */}
+                    <p><b>Former Inheritors:</b></p>
+                    <ul>
+                    {characterData && characterData.length > 0 && (
+                        characterData.map((char) => (
+                            <li>{char.name}</li>
+                        ))
+                    )}
+                    </ul>
+                    {console.log(characterData, former_inheritors)}
                 </Typography>
             </CardContent>
             <CardActions>
@@ -46,3 +74,17 @@ function TitanCard({ data }) {
 }
 
 export default TitanCard;
+
+
+
+{/* <Typography>
+                <Button onClick={() => fetchData(current_inheritor, id)} size="large">{showNames[id] ? 'Hide info' : 'Learn More'}:</Button>
+                    {characterData && characterData.length > 0 && (
+                        characterData.map((char) => (
+                            <p className={showNames[data.id] ? 'show' : 'hide'}>Current Inheritor: {char.name}</p>
+                        ))
+                    )}
+                </Typography> */}
+{/* <Typography>
+                    Former Inheritor: {console.log(former_inheritors)}
+                </Typography> */}
