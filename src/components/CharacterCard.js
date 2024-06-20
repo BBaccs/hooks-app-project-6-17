@@ -3,28 +3,29 @@ import { Card, CardActions, CardContent, CardMedia, Typography, Button } from '@
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 
 function CharacterCard({ data }) {
+  const { id, name, height, age, roles, img } = data;
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         alt=""
         height="140"
-        image={cleanImageUrl(data.img)}
+        image={cleanImageUrl(img)}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">{data.name}</Typography>
-        {data.height && (
-          <Typography variant="body2" color="text.secondary">Height: {data.height}</Typography>
+        <Typography gutterBottom variant="h5" component="div">{name}</Typography>
+        {height && (
+          <Typography variant="body2" color="text.secondary">Height: {height}</Typography>
         )}
-        {data.age && (
-          <Typography variant="body2" color="text.secondary">Age: {data.age}</Typography>
+        {age && (
+          <Typography variant="body2" color="text.secondary">Age: {age}</Typography>
         )}
-        {data.roles && (
-          <Typography>Roles: {data.roles.join(', ')}</Typography>
+        {roles && (
+          <Typography>Roles: {roles.join(', ')}</Typography>
         )}
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        {/* <Button onClick={() => fetchData()} size="small">Learn More</Button> */}
       </CardActions>
     </Card>
   );
