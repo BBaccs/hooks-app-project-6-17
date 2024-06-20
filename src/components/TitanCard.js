@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardActions, CardContent, CardMedia, Typography, Button } from '@mui/material';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
@@ -6,18 +6,20 @@ import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 function TitanCard({ data }) {
     const { characterData, showNames, fetchData } = useCharacterDataFetcher();
     const { name, height, abilities, relatives, allegiance, former_inheritors, current_inheritor, id } = data;
-    // useEffect(() => {
-    //     // Check if current_inheritor is undefined or it will throw an error
-    //     if (current_inheritor) {
-    //         fetchData(current_inheritor);
-    //     }
-    // }, [current_inheritor, id]);
-    
+
+    useEffect(() => {
+        // Check if current_inheritor is undefined or it will throw an error
+        if (current_inheritor) {
+            // console.log(current_inheritor)
+            fetchData(current_inheritor, id, 'current');
+        }
+    }, [current_inheritor]);
+
     useEffect(() => {
         if (former_inheritors) {
-            fetchData(former_inheritors);
+            fetchData(former_inheritors, id, 'former');
         }
-    }, [former_inheritors, id]);
+    }, [former_inheritors]);
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardMedia
@@ -41,7 +43,7 @@ function TitanCard({ data }) {
                     {abilities && abilities.length > 0 && (
                         <ul>
                             {abilities.map((ability) => (
-                                <li key={ability}>{ability}</li>
+                                <li key={ability.id}>{ability}</li>
                             ))}
                         </ul>
                     )}
@@ -50,41 +52,26 @@ function TitanCard({ data }) {
                     Loyal to: {allegiance}
                 </Typography>
                 <Typography>
-                    {/* {characterData && characterData.length > 0 && (
-                        characterData.map((char) => (
-                            <p>Current Inheritor: {char.name}</p>
-                        ))
-                    )} */}
-                    <p><b>Former Inheritors:</b></p>
-                    <ul>
-                    {characterData && characterData.length > 0 && (
-                        characterData.map((char) => (
-                            <li>{char.name}</li>
+                    {characterData.current && characterData.current.length > 0 && (
+                        characterData.current.map((char) => (
+                            <p key={char[0].id}>Current Inheritor: {char[0].name}</p>
                         ))
                     )}
-                    </ul>
-                    {console.log(characterData, former_inheritors)}
                 </Typography>
+                {/* <Typography>
+                    <p><b>Former Inheritors:</b></p>
+                    <ul>
+                        {characterData && characterData.length > 0 && (
+                            characterData.map((char) => (
+                                <li key={char.id}>{char.name}</li>
+                            ))
+                        )}
+                    </ul>
+                </Typography> */}
+
             </CardContent>
-            <CardActions>
-                <Button onclick={() => console.log('hi')} size="large">Learn More</Button>
-            </CardActions>
         </Card>
     );
 }
 
 export default TitanCard;
-
-
-
-{/* <Typography>
-                <Button onClick={() => fetchData(current_inheritor, id)} size="large">{showNames[id] ? 'Hide info' : 'Learn More'}:</Button>
-                    {characterData && characterData.length > 0 && (
-                        characterData.map((char) => (
-                            <p className={showNames[data.id] ? 'show' : 'hide'}>Current Inheritor: {char.name}</p>
-                        ))
-                    )}
-                </Typography> */}
-{/* <Typography>
-                    Former Inheritor: {console.log(former_inheritors)}
-                </Typography> */}
