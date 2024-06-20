@@ -42,13 +42,13 @@ function OrganizationCard({ data }) {
       </CardContent>
       <CardActions>
         {hasNotableMembers ? (
-          <Button onClick={() => fetchData(data.notable_members, data.id)} size="large">{showNames[data.id] ? 'hide' : 'show'} Notable Members</Button>
+          <Button onClick={() => fetchData(data.notable_members, data.id,'notable')} size="large">{showNames[data.id] ? 'hide' : 'show'} Notable Members</Button>
         ) : (
           <p>No known notable members</p>
         )}
       </CardActions>
       <ul id={data.id} className={showNames[data.id] ? 'show' : 'hide'}>
-        {characterData.map((char, index) => (
+        {characterData.notable.map((char, index) => (
           <li className="mb-2" key={index}>
             <span><b>Name:</b> {char.name}</span>
             <span style={{ display: 'block' }}>

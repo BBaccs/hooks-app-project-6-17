@@ -24,11 +24,11 @@ function EpisodeCard({ data }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={() => fetchData(data.characters, data.id)} size="large">{showNames[data.id] ? 'hide' : 'show'} Characters List</Button>
+        <Button onClick={() => fetchData(data.characters, data.id, 'notable')} size="large">{showNames[data.id] ? 'hide' : 'show'} Characters List</Button>
       </CardActions>
       <>
         <ul id={data.id} className={showNames[data.id] ? 'show' : 'hide'}>
-          {characterData.map((char, index) =>
+          {characterData.notable.map((char, index) =>
             <li className="mb-2" key={index}>
               <span><b>Name:</b> {char.name}</span>
               <span style={{ display: 'block' }}>
