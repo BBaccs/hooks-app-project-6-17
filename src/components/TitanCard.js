@@ -5,7 +5,7 @@ import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 
 function TitanCard({ data }) {
     const { characterData, showNames, fetchData } = useCharacterDataFetcher();
-    const { name, height, abilities, relatives, allegiance, former_inheritors, current_inheritor, id } = data;
+    const { name, id, height, abilities, relatives, allegiance, former_inheritors, current_inheritor, img } = data;
 
     useEffect(() => {
         // Check if current_inheritor is undefined or it will throw an error
@@ -25,7 +25,7 @@ function TitanCard({ data }) {
                 component="img"
                 alt=""
                 height="140"
-                image={cleanImageUrl(data.img)}
+                image={cleanImageUrl(img)}
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
