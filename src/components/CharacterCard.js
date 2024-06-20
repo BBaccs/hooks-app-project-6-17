@@ -3,9 +3,10 @@ import { Card, CardActions, CardContent, CardMedia, Typography, Button } from '@
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 
 function CharacterCard({ data }) {
-  const { id, name, height, age, roles, img } = data;
+  const { id, name, height, age, roles, img, alias, groups } = data;
+  const subGroups = groups && groups.length > 0 ? groups[0].sub_groups : [];
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card id={id} sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         alt=""
@@ -22,6 +23,12 @@ function CharacterCard({ data }) {
         )}
         {roles && (
           <Typography>Roles: {roles.join(', ')}</Typography>
+        )}
+        {subGroups.length > 0 && (
+          <Typography>Sub Groups: {subGroups}</Typography>
+        )}
+        {alias.length > 0 && (
+          <Typography>Alias: {alias}</Typography>
         )}
       </CardContent>
       <CardActions>
