@@ -9,7 +9,6 @@ function OrganizationCard({ data }) {
   // Safe check to ensure notable_members is an array and has items
   const hasNotableMembers = Array.isArray(notable_members) && notable_members.length > 0;
 
-
   return (
     <Card sx={{ maxWidth: 500 }}>
       <CardMedia

@@ -60,7 +60,7 @@ function App() {
         <h1 style={{ textAlign: 'center' }}>Attack on Titan API</h1>
         <Container maxWidth="md" className='btn-container'>
           <Button variant="contained" onClick={() => setDataType('characters')}>Characters</Button>
-          {/* <Button variant="contained" onClick={() => setDataType('locations')}>Locations</Button> */}
+          <Button variant="contained" onClick={() => setDataType('locations')}>Locations</Button>
           <Button variant="contained" onClick={() => setDataType('organizations')}>Organizations</Button>
           <Button variant="contained" onClick={() => setDataType('titans')}>Titans</Button>
           <Button variant="contained" onClick={() => setDataType('episodes')}>Episodes</Button>

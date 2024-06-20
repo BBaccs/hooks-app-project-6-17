@@ -1,46 +1,49 @@
 import React from 'react';
-import { Card, CardContent, Typography, Button, CardActions } from '@mui/material';
+import { Card, CardContent, Typography, Button, CardActions, CardMedia } from '@mui/material';
+import cleanImageUrl from '../Utilities/cleanImageUrl';
+import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 
 function LocationCard({ data }) {
+  const { characterData, showNames, fetchData } = useCharacterDataFetcher();
+  const { id, name, territory, region, debut, notable_inhabitants, notable_former_inhabitants, img } = data;
+  console.log('notable_inhabitants:', notable_former_inhabitants.length)
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card id={id} sx={{ maxWidth: 345 }}>
+      <CardMedia
+        component="img"
+        alt=""
+        height="140"
+        image={cleanImageUrl(img)}
+      />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {data.name}
+          {name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Territory: {data.territory}
+          Territory: {territory}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Region: {data.region}
+          Region: {region}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Debut: {data.debut}
+          Debut: {debut}
         </Typography>
-        {data.notable_inhabitants && data.notable_inhabitants.length > 0 && (
-          <>
-            <Typography variant="body2" color="text.secondary">Notable Inhabitants:</Typography>
-            <ul>
-              {data.notable_inhabitants.map((inhabitant, idx) => (
-                <li key={idx}>{inhabitant}</li>
-              ))}
-            </ul>
-          </>
-        )}
-        {data.notable_former_inhabitants && data.notable_former_inhabitants.length > 0 && (
-          <>
-            <Typography variant="body2" color="text.secondary">Notable Former Inhabitants:</Typography>
-            <ul>
-              {data.notable_former_inhabitants.map((inhabitant, idx) => (
-                <li key={idx}>{inhabitant}</li>
-              ))}
-            </ul>
-          </>
-        )}
+
       </CardContent>
       <CardActions>
-        <Button onClick={() => console.log('More about:', data.name)} size="large">Learn More</Button>
+        {notable_inhabitants.length > 0 && <Button onClick={() => fetchData(notable_inhabitants, id, 'notable')} size="large">{showNames[id] ? 'Hide Info' : 'Learn More'}</Button>}
       </CardActions>
+      {characterData && (
+        <>
+          <Typography id={id} className={showNames[id] ? 'show' : 'hide'} variant="body2" color="text.secondary">Notable Former Inhabitants:
+            <ul>
+              {characterData.notable.map(char => (
+                <li key={char.id}>{char.name}</li>
+              ))}
+            </ul>
+          </Typography>
+        </>
+      )}
     </Card>
   );
 }
