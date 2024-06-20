@@ -5,9 +5,10 @@ import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 
 function OrganizationCard({ data }) {
   const { characterData, showNames, fetchData } = useCharacterDataFetcher();
+  const { name, id, affiliation, debut, notable_members, img } = data;
+  // Safe check to ensure notable_members is an array and has items
+  const hasNotableMembers = Array.isArray(notable_members) && notable_members.length > 0;
 
-  // Safe check to ensure data.notable_members is an array and has items
-  const hasNotableMembers = Array.isArray(data.notable_members) && data.notable_members.length > 0;
 
   return (
     <Card sx={{ maxWidth: 500 }}>
@@ -15,24 +16,24 @@ function OrganizationCard({ data }) {
         component="img"
         alt=""
         height="140"
-        image={cleanImageUrl(data.img) || '/placeholder.webp'}
+        image={cleanImageUrl(img) || '/placeholder.webp'}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {data.name || 'Unknown Organization'}
+          {name || 'Unknown Organization'}
         </Typography>
-        {data.affiliation ? (
+        {affiliation ? (
           <Typography variant="body2" color="text.secondary">
-            Affiliation: {data.affiliation}
+            Affiliation: {affiliation}
           </Typography>
         ) : (
           <Typography variant="body2" color="text.secondary">
             No affiliation provided
           </Typography>
         )}
-        {data.debut ? (
+        {debut ? (
           <Typography variant="body2" color="text.secondary">
-            Debut Episode: <a href={data.debut} target="_blank" rel="noopener noreferrer">Episode Link</a>
+            Debut Episode: <a href={debut} target="_blank" rel="noopener noreferrer">Episode Link</a>
           </Typography>
         ) : (
           <Typography variant="body2" color="text.secondary">
@@ -42,13 +43,13 @@ function OrganizationCard({ data }) {
       </CardContent>
       <CardActions>
         {hasNotableMembers ? (
-          <Button onClick={() => fetchData(data.notable_members, data.id)} size="large">{showNames[data.id] ? 'hide' : 'show'} Notable Members</Button>
+          <Button onClick={() => fetchData(notable_members, id,'notable')} size="large">{showNames[id] ? 'hide' : 'show'} Notable Members</Button>
         ) : (
           <p>No known notable members</p>
         )}
       </CardActions>
-      <ul id={data.id} className={showNames[data.id] ? 'show' : 'hide'}>
-        {characterData.map((char, index) => (
+      <ul id={id} className={showNames[id] ? 'show' : 'hide'}>
+        {characterData.notable.map((char, index) => (
           <li className="mb-2" key={index}>
             <span><b>Name:</b> {char.name}</span>
             <span style={{ display: 'block' }}>

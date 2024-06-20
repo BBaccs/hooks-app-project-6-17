@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
 export default function useCharacterDataFetcher() {
+    const [characterData2, setCharacterData2] = useState([]);
     const [showNames, setShowNames] = useState({});
-    const [characterData, setCharacterData] = useState({ current: [], former: [], notable: [] });
+    const [characterData, setCharacterData] = useState({ current: [], former: [] });
 
     async function fetchData(urlData, cardId, charType) {
         let urlArr = Array.isArray(urlData) ? urlData : urlData.split(",");
@@ -18,14 +19,16 @@ export default function useCharacterDataFetcher() {
                 setCharacterData(prevProps => ({ ...prevProps, current: results, former: prevProps.former }));
             } else if (charType === 'former') {
                 setCharacterData(prevProps => ({ ...prevProps, current: prevProps.current, former: results }));
-            } else if (charType === 'notable') {
+            } else if (!charType) {
                 // If charType is 'none', it will update both current and former
-                setCharacterData(prevProps => ({ ...prevProps, current: prevProps.current, former: prevProps.current, notable: results }));
+                setCharacterData2(results);
+                console.log('helloooo', charType, results)
             }
             toggleShowNames(cardId);
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
             setCharacterData([]);
+            setCharacterData2([]);
         }
     };
 
@@ -35,5 +38,5 @@ export default function useCharacterDataFetcher() {
             [id]: !prevData[id]
         }));
     };
-    return { characterData, showNames, fetchData, toggleShowNames };
+    return { characterData, characterData2, showNames, fetchData, toggleShowNames };
 };
