@@ -5,8 +5,7 @@ import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 
 function LocationCard({ data }) {
   const { characterData, showNames, fetchData } = useCharacterDataFetcher();
-  const { id, name, territory, region, debut, notable_inhabitants, notable_former_inhabitants, img } = data;
-  console.log('notable_inhabitants:', notable_former_inhabitants.length)
+  const { id, name, territory, region, debut, notable_inhabitants, img } = data;
   return (
     <Card id={id} sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -35,7 +34,7 @@ function LocationCard({ data }) {
       </CardActions>
       {characterData && (
         <>
-          <Typography id={id} className={showNames[id] ? 'show' : 'hide'} variant="body2" color="text.secondary">Notable Former Inhabitants:
+          <Typography id={id} className={showNames[id] ? 'show' : 'hide'} variant="body2" color="text.secondary">Notable Inhabitants:
             <ul>
               {characterData.notable.map(char => (
                 <li key={char.id}>{char.name}</li>
