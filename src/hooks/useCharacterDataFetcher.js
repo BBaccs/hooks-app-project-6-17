@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-export default function useCharacterDataFetcher(urlArr, cardId) {
+export default function useCharacterDataFetcher() {
     const [characterData, setCharacterData] = useState([]);
     const [showNames, setShowNames] = useState({});
 
-    async function fetchData(urlArr, cardId) {
+    async function fetchData(urlData, cardId) {
+        let urlArr = Array.isArray(urlData) ? urlData : urlData.split(",");
         try {
             const promises = urlArr.map(url => fetch(url).then(response => {
                 console.log(url)
