@@ -6,13 +6,8 @@ function LocationCard({ data }) {
   const { characterData, showNames, fetchData } = useCharacterDataFetcher();
   const { id, name, territory, region, debut, notable_inhabitants } = data;
 
-  // useEffect(() => {
-  //   fetchData(dataType);
-  // }, [dataType]);
-
   const handleClick = () => {
     fetchData(notable_inhabitants, id, 'notable');
-    console.log(notable_inhabitants)
   };
 
   return (
@@ -30,7 +25,7 @@ function LocationCard({ data }) {
         <Typography variant="body2" color="text.secondary">
           Debut: {debut}
         </Typography>
-        {notable_inhabitants && notable_inhabitants.length > 0 && (
+        {characterData && notable_inhabitants.length > 0 && (
           <>
             <Typography variant="body2" color="text.secondary">Notable Inhabitants:</Typography>
             <ul>
@@ -43,7 +38,7 @@ function LocationCard({ data }) {
       </CardContent>
       <CardActions>
         {
-          notable_inhabitants.length > 0 &&
+          characterData && notable_inhabitants.length > 0 &&
           <Button onClick={() => handleClick(notable_inhabitants, id, 'notable')} size="large">{showNames[id] ? 'Hide' : 'Learn More'}</Button>
         }
       </CardActions>

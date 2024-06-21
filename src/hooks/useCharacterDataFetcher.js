@@ -1,11 +1,15 @@
 import { useState } from 'react';
 
-function filterValidUrls(urlArray) {
-    // Filter the array to include only strings that start with "https"
-    return urlArray.filter(url => typeof url === 'string' && url.startsWith('https'));
-  }
-  
-  
+// Function to filter out non-fetch request strings due to bad data:
+function separateUrls(urlArray) {
+    const validUrlsArr = urlArray.filter(url => typeof url === 'string' && url.startsWith('https'));
+    const invalidUrlsArr = urlArray.filter(url => typeof url === 'string' && !url.startsWith('https'));
+    const invalidUrlObjArr = invalidUrlsArr.map(url => ({ name: url }));
+
+    return { validUrlsArr, invalidUrlObjArr };
+}
+
+
 
 export default function useCharacterDataFetcher() {
     const [showNames, setShowNames] = useState({});
@@ -13,15 +17,20 @@ export default function useCharacterDataFetcher() {
 
     async function fetchData(urlData, cardId, charType) {
         let urlArr = Array.isArray(urlData) ? urlData : urlData.split(",");
-        urlArr = filterValidUrls(urlArr);
+        const { validUrlsArr, invalidUrlObjArr } = separateUrls(urlArr);
+        console.log("Valid URLs:", validUrlsArr, "Invalid URLs:", invalidUrlObjArr);
         try {
-            const promises = urlArr.map(url => fetch(url).then(response => {
+            const promises = validUrlsArr.map(url => fetch(url).then(response => {
                 if (!response.ok) {
+                    console.error('Network response was not ok: ' + + response.statusText);
                     throw new Error('Network response was not ok: ' + response.statusText);
                 }
                 return response.json();
             }));
-            const results = await Promise.all(promises);
+            let results = await Promise.all(promises);
+            console.log('results:', results);
+            results = results.concat(invalidUrlObjArr);
+            console.log(results);
             if (charType === 'current') {
                 setCharacterData(prevProps => ({ ...prevProps, current: results, former: prevProps.former }));
             } else if (charType === 'former') {
