@@ -1,25 +1,36 @@
 import React from 'react';
-import { Card, CardContent, Typography, Button, CardActions } from '@mui/material';
+import { Card, CardContent, Typography, Button, CardActions, CardMedia } from '@mui/material';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
+import cleanImageUrl from '../Utilities/cleanImageUrl'
 
 function LocationCard({ data }) {
   const { characterData, showNames, fetchData, toggleShowNames } = useCharacterDataFetcher();
-  const { generalData, setGeneralData } = useGeneralDataFetch();
-  const { id, name, territory, region, debut, notable_inhabitants } = data;
+  // const { generalData, setGeneralData } = useGeneralDataFetch();
+  const { id, name, territory, region, debut, notable_inhabitants, img } = data;
 
   const handleClick = () => {
     fetchData(notable_inhabitants, id, 'notable');
     toggleShowNames(!showNames);
   };
 
-  const handleClick2 = () => {
-    setGeneralData(debut, id)
-    console.log('bigdata', generalData, debut, id)
-  }
+  // const handleClick2 = () => {
+  //   setGeneralData(debut, id)
+  //   console.log('bigdata', generalData, debut, id)
+  // }
+
+  // useEffect(() => {
+  //   fetchData(dataType);
+  // }, [dataType]);
 
   return (
     <Card sx={{ maxWidth: 345 }}>
+      <CardMedia
+        component="img"
+        alt=""
+        height="140"
+        image={cleanImageUrl(img)}
+      />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {name}
@@ -36,7 +47,7 @@ function LocationCard({ data }) {
           }
         </CardActions>
       </CardContent>
-      <CardActions>
+      {/* <CardActions>
         <Button onClick={handleClick2} size="large">debut</Button>
         {
           generalData && generalData.length &&
@@ -44,7 +55,7 @@ function LocationCard({ data }) {
             Gen data: {generalData}
           </Typography>
         }
-      </CardActions>
+      </CardActions> */}
       {showNames[id] && characterData.notable && characterData.notable.length > 0 &&
         <ul> <b>Notable Inhabitants:</b>
           {characterData.notable.map((char, index) => (
