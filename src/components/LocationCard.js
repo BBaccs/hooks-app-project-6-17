@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent, Typography, Button, CardActions } from '@mui/material';
+import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 
 function LocationCard({ data }) {
-  const {id, name, territory, region, debut, notable_inhabitants, notable_former_inhabitants} = data;
+  const { characterData, showNames, fetchData } = useCharacterDataFetcher();
+  const { id, name, territory, region, debut, notable_inhabitants } = data;
+
+  // useEffect(() => {
+  //   fetchData(dataType);
+  // }, [dataType]);
+
+  const handleClick = () => {
+    fetchData(notable_inhabitants, id, 'notable');
+    console.log(notable_inhabitants)
+  };
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardContent>
@@ -28,20 +40,20 @@ function LocationCard({ data }) {
             </ul>
           </>
         )}
-        {notable_former_inhabitants && notable_former_inhabitants.length > 0 && (
-          <>
-            <Typography variant="body2" color="text.secondary">Notable Former Inhabitants:</Typography>
-            <ul>
-              {notable_former_inhabitants.map((inhabitant, idx) => (
-                <li key={idx}>{inhabitant}</li>
-              ))}
-            </ul>
-          </>
-        )}
       </CardContent>
       <CardActions>
-        <Button onClick={() => console.log('More about:', name)} size="large">Learn More</Button>
+        {
+          notable_inhabitants.length > 0 &&
+          <Button onClick={() => handleClick(notable_inhabitants, id, 'notable')} size="large">{showNames[id] ? 'Hide' : 'Learn More'}</Button>
+        }
       </CardActions>
+      {characterData.notable && notable_inhabitants.length > 0 &&
+          <ul className={showNames[id] ? 'show' : 'hide'}> <b>Notable Inhabitants:</b>
+            {characterData.notable.map((char, id) => (
+              <li id={char.id}>{char.name}</li>
+            ))}
+          </ul>
+      }
     </Card>
   );
 }

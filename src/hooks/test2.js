@@ -1,10 +1,13 @@
 import { useState } from 'react';
 
-function filterValidUrls(urlArray) {
-    // Filter the array to include only strings that start with "https"
-    return urlArray.filter(url => typeof url === 'string' && url.startsWith('https'));
-  }
-  
+// Filter out non fetch requests from strings due to bad data:
+  function separateUrls(urlArray) {
+    const validUrls = urlArray.filter(url => typeof url === 'string' && url.startsWith('https'));
+    const invalidUrls = urlArray.filter(url => typeof url === 'string' && !url.startsWith('https'));
+
+    return { validUrls, invalidUrls };
+}
+
   
 
 export default function useCharacterDataFetcher() {
@@ -13,7 +16,8 @@ export default function useCharacterDataFetcher() {
 
     async function fetchData(urlData, cardId, charType) {
         let urlArr = Array.isArray(urlData) ? urlData : urlData.split(",");
-        urlArr = filterValidUrls(urlArr);
+        const { validUrls, invalidUrls } = separateUrls(urlArr);
+        console.log("Valid URLs:", validUrls, "Invalid URLs:", invalidUrls);
         try {
             const promises = urlArr.map(url => fetch(url).then(response => {
                 if (!response.ok) {
