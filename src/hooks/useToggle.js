@@ -1,15 +1,14 @@
 import { useState } from 'react';
 
-export function useToggle({btnId}) {
-    console.log(btnId)
-    const [toggleState, setToggle] = useState({state: false, btnId: btnId});
-    // const toggle = (cardId) => {
-    //     setToggle(prevData => ({
-    //         ...prevData,
-    //         [cardId]: !prevData[cardId]
-    //     }));
-    // };
-    console.log(toggleState)
+export function useToggle() {
+    const [toggleStates, setToggleStates] = useState({});
 
-    return { toggleState, setToggle };
+    const setToggle = (btnId) => {
+        setToggleStates(prevStates => ({
+            ...prevStates,
+            [btnId]: !prevStates[btnId]
+        }));
+    };
+
+    return { toggleStates, setToggle };
 }
