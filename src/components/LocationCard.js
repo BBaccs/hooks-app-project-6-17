@@ -1,27 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent, Typography, Button, CardActions, CardMedia } from '@mui/material';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
-import cleanImageUrl from '../Utilities/cleanImageUrl'
+import cleanImageUrl from '../Utilities/cleanImageUrl';
+import { useToggle } from "../hooks/useToggle";
 
 function LocationCard({ data }) {
-  const { characterData, showNames, fetchData, toggleShowNames } = useCharacterDataFetcher();
-  const { generalApiData, fetchGeneralApiData }  = useGeneralDataFetch();
+  const { characterData, fetchData } = useCharacterDataFetcher();
+  const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch();
   const { id, name, territory, region, debut, notable_inhabitants, img } = data;
+  const { toggleState, setToggle } = useToggle();
 
   const handleClick = () => {
     fetchData(notable_inhabitants, id, 'notable');
-    toggleShowNames(!showNames);
+    setToggle(!toggleState);
   };
 
-  const handleClick2 = () => {
-    console.log('params')
-    fetchGeneralApiData('episodes')
+  const handleDebutFetch = (debut) => {
+    // Find the index of ".com/" 
+    const index = debut.indexOf(".com/") + 5;  // Adding 5 to move past the length of ".com/"
+    // Extract everything after ".com/"
+    const extractedPath = debut.substring(index);
+    fetchGeneralApiData(extractedPath, id);
+    setToggle(!toggleState);
   }
-
-  // useEffect(() => {
-  //   fetchData(dataType);
-  // }, [dataType]);
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -43,20 +45,20 @@ function LocationCard({ data }) {
         </Typography>
         <CardActions>
           {notable_inhabitants && notable_inhabitants.length > 0 &&
-            <Button onClick={handleClick} size="large">{showNames[id] ? 'Hide' : 'Learn More'}</Button>
+            <Button onClick={handleClick} size="large">{toggleState ? 'Hide' : 'Learn More'}</Button>
           }
         </CardActions>
       </CardContent>
       <CardActions>
-        <Button onClick={handleClick2} size="large">debut</Button>
+        <Button onClick={() => handleDebutFetch(debut, id)} size="large">debut</Button>
         {
-          generalApiData && generalApiData.length &&
+          toggleState && generalApiData.name && generalApiData.name.length > 0 &&
           <Typography>
-            Gen data: {generalApiData}
+            {generalApiData.episode}: {generalApiData.name}
           </Typography>
         }
       </CardActions>
-      {showNames[id] && characterData.notable && characterData.notable.length > 0 &&
+      {toggleState[id] && characterData.notable && characterData.notable.length > 0 &&
         <ul> <b>Notable Inhabitants:</b>
           {characterData.notable.map((char, index) => (
             <li key={index}>{char.name}</li>

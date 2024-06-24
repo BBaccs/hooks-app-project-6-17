@@ -10,7 +10,7 @@ import useGeneralDataFetch from './hooks/useGeneralDataFetch';
 
 function App() {
   const [dataType, setDataType] = useState('');
-  const { apiData, fetchGeneralApiData }  = useGeneralDataFetch();
+  const { generalApiData, fetchGeneralApiData }  = useGeneralDataFetch();
 
   useEffect(() => {
     fetchGeneralApiData(dataType);
@@ -46,7 +46,7 @@ function App() {
           <Button variant="contained" onClick={() => setDataType('episodes')}>Episodes</Button>
         </Container>
         <Grid container>
-          {apiData.results.map((data, index) => (
+          {generalApiData.results && generalApiData.results.map((data, index) => (
             <Grid item xs={12} sm={6} md={6} key={data.id}>
               {getCardComponent(data)}
             </Grid>
