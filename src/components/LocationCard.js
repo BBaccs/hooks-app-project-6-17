@@ -21,12 +21,14 @@ function LocationCard({ data }) {
   }
 
   const handleClick = (buttonId) => {
-    console.log(buttonId)
     fetchData(notable_inhabitants, 'notable');
     setToggle(buttonId); 
-    console.log(toggleStates[buttonId])
 };
 
+
+const handleEpisodeClick = (buttonId) => {
+  setToggle(buttonId); 
+}
 
   useEffect(() => {
     const fixedUrl = extractedUrlPath(debut);
@@ -53,9 +55,9 @@ function LocationCard({ data }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button id={`stateBtn${id}`} onClick={() => setToggle(!toggleStates)} size="large">{!toggleStates ? 'Hide' : 'Show Debut:'}</Button>
+        <Button id={`stateBtn${id}`} onClick={() => handleEpisodeClick(`stateBtn${id}`)} size="large">{toggleStates[`stateBtn${id}`] ? 'Hide' : 'Show Debut:'}</Button>
         {
-          !toggleStates && generalApiData.name && generalApiData.name.length > 0 &&
+          toggleStates[`stateBtn${id}`] && generalApiData.name && generalApiData.name.length > 0 &&
           <Typography>
             {generalApiData.episode}: {generalApiData.name}
           </Typography>
