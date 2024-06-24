@@ -10,13 +10,14 @@ import useGeneralDataFetch from './hooks/useGeneralDataFetch';
 
 function App() {
   const [dataType, setDataType] = useState('');
-  const { apiData, fetchData }  = useGeneralDataFetch();
+  const { apiData, fetchGeneralApiData }  = useGeneralDataFetch();
 
   useEffect(() => {
-    fetchData(dataType);
+    fetchGeneralApiData(dataType);
   }, [dataType]);
 
   const getCardComponent = (data) => {
+    console.log(data, dataType)
     switch (dataType) {
       case 'characters':
         return <CharacterCard data={data} />;

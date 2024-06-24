@@ -6,7 +6,7 @@ import cleanImageUrl from '../Utilities/cleanImageUrl'
 
 function LocationCard({ data }) {
   const { characterData, showNames, fetchData, toggleShowNames } = useCharacterDataFetcher();
-  // const { generalData, setGeneralData } = useGeneralDataFetch();
+  const { generalApiData, fetchGeneralApiData }  = useGeneralDataFetch();
   const { id, name, territory, region, debut, notable_inhabitants, img } = data;
 
   const handleClick = () => {
@@ -14,10 +14,10 @@ function LocationCard({ data }) {
     toggleShowNames(!showNames);
   };
 
-  // const handleClick2 = () => {
-  //   setGeneralData(debut, id)
-  //   console.log('bigdata', generalData, debut, id)
-  // }
+  const handleClick2 = () => {
+    console.log('params')
+    fetchGeneralApiData('episodes')
+  }
 
   // useEffect(() => {
   //   fetchData(dataType);
@@ -47,15 +47,15 @@ function LocationCard({ data }) {
           }
         </CardActions>
       </CardContent>
-      {/* <CardActions>
+      <CardActions>
         <Button onClick={handleClick2} size="large">debut</Button>
         {
-          generalData && generalData.length &&
+          generalApiData && generalApiData.length &&
           <Typography>
-            Gen data: {generalData}
+            Gen data: {generalApiData}
           </Typography>
         }
-      </CardActions> */}
+      </CardActions>
       {showNames[id] && characterData.notable && characterData.notable.length > 0 &&
         <ul> <b>Notable Inhabitants:</b>
           {characterData.notable.map((char, index) => (
