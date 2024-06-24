@@ -6,32 +6,11 @@ import TitanCard from './components/TitanCard';
 import LocationCard from './components/LocationCard';
 import OrganizationCard from './components/OrganizationCard';
 import EpisodeCard from './components/EpisodeCard';
+import useGeneralDataFetch from './hooks/useGeneralDataFetch';
 
 function App() {
-  const baseUrl = {
-    "characters": "https://api.attackontitanapi.com/characters",
-    "locations": "https://api.attackontitanapi.com/locations",
-    "organizations": "https://api.attackontitanapi.com/organizations",
-    "titans": "https://api.attackontitanapi.com/titans",
-    "episodes": "https://api.attackontitanapi.com/episodes"
-  }
-
-  const [apiData, setData] = useState({ results: [] })
   const [dataType, setDataType] = useState('');
-
-  async function fetchData(param) {
-    const url = baseUrl[param];
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-      }
-      const apiData = await response.json();
-      setData(apiData);
-    } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
-    }
-  }
+  const { apiData, fetchData }  = useGeneralDataFetch();
 
   useEffect(() => {
     fetchData(dataType);
@@ -49,8 +28,8 @@ function App() {
         return <OrganizationCard data={data} />;
       case 'episodes':
         return <EpisodeCard data={data} />;
-      // default:
-      //   return <CharacterCard data={data} />; // Default case
+      default:
+        return null;
     }
   };
 
