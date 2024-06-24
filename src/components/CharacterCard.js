@@ -8,7 +8,7 @@ function CharacterCard({ data }) {
   const subGroups = groups && groups.length > 0 ? groups[0].sub_groups : [];
 
   return (
-    <Card id={id} sx={{ maxWidth: 345 }}>
+    <Card id={id} sx={{ maxWidth: 345, marginBottom: '50px' }}>
       <CardMedia
         component="img"
         alt=""
@@ -31,10 +31,10 @@ function CharacterCard({ data }) {
         )}
       </CardContent>
       <CardActions>
-        <Button onClick={() => setToggleAlias(!toggleAlias)} size="small">Learn More</Button>
+      {alias && alias.length > 0 && <Button onClick={() => setToggleAlias(!toggleAlias)} size="small">Reveal Alias</Button> }
       </CardActions>
       {toggleAlias && (
-        <Typography>
+        <Typography style={{ marginBottom: '10px'}}>
           {alias.length > 0 ? `Alias: ${alias}` : "No Alias"}
         </Typography>
       )}
