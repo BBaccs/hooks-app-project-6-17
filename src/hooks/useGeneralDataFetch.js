@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useGeneralDataFetch() {
+export default function useGeneralDataFetch(type) {
     const [generalApiData, setApiData] = useState({ results: [] })
     async function fetchGeneralApiData(type) {
         const url = `https://api.attackontitanapi.com/${type}`;
@@ -10,11 +10,13 @@ export default function useGeneralDataFetch() {
                 throw new Error('Network response was not ok ' + response.statusText);
             }
             const apiData = await response.json();
+            // console.log(apiData)
             setApiData(apiData);
-            console.log('apidata', generalApiData.name)
+
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
         }
     }
-    return { generalApiData, fetchGeneralApiData, setApiData };
+
+    return { generalApiData, fetchGeneralApiData };
 }

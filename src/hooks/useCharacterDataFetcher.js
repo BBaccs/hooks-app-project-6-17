@@ -11,7 +11,7 @@ function separateUrls(urlArray) {
 
 export default function useCharacterDataFetcher() {
     const [characterData, setCharacterData] = useState({ current: [], former: [], notable: [] });
-    async function fetchData(urlData, cardId, charType) {
+    async function fetchData(urlData, charType) {
         let urlArr = Array.isArray(urlData) ? urlData : urlData.split(",");
         const { validUrlsArr, invalidUrlObjArr } = separateUrls(urlArr);
         try {

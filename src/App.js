@@ -9,16 +9,21 @@ import EpisodeCard from './components/EpisodeCard';
 import useGeneralDataFetch from './hooks/useGeneralDataFetch';
 
 function App() {
-  const [dataType, setDataType] = useState('');
-  const { generalApiData, fetchGeneralApiData }  = useGeneralDataFetch();
+  const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch();
+  const [currentType, setCurrentType] = useState('');
 
   useEffect(() => {
-    fetchGeneralApiData(dataType);
-  }, [dataType]);
+    if (currentType) {
+      fetchGeneralApiData(currentType);
+    }
+  }, [currentType]);
 
-  const getCardComponent = (data) => {
-    console.log(data, dataType)
-    switch (dataType) {
+  const handleClick = (type) => {
+    setCurrentType(type); // Trigger the useEffect
+  };
+
+  const getCardComponent = (data, type) => {
+    switch (type) {
       case 'characters':
         return <CharacterCard data={data} />;
       case 'titans':
@@ -39,16 +44,16 @@ function App() {
       <Paper elevation={3} style={{ padding: '20px' }}>
         <h1 style={{ textAlign: 'center' }}>Attack on Titan API</h1>
         <Container maxWidth="md" className='btn-container'>
-          <Button variant="contained" onClick={() => setDataType('characters')}>Characters</Button>
-          <Button variant="contained" onClick={() => setDataType('locations')}>Locations</Button>
-          <Button variant="contained" onClick={() => setDataType('organizations')}>Organizations</Button>
-          <Button variant="contained" onClick={() => setDataType('titans')}>Titans</Button>
-          <Button variant="contained" onClick={() => setDataType('episodes')}>Episodes</Button>
+          <Button variant="contained" onClick={() => handleClick('characters')}>Characters</Button>
+          <Button variant="contained" onClick={() => handleClick('locations')}>Locations</Button>
+          <Button variant="contained" onClick={() => handleClick('organizations')}>Organizations</Button>
+          <Button variant="contained" onClick={() => handleClick('titans')}>Titans</Button>
+          <Button variant="contained" onClick={() => handleClick('episodes')}>Episodes</Button>
         </Container>
         <Grid container>
           {generalApiData.results && generalApiData.results.map((data, index) => (
             <Grid item xs={12} sm={6} md={6} key={data.id}>
-              {getCardComponent(data)}
+              {getCardComponent(data, currentType)}
             </Grid>
           ))}
         </Grid>
