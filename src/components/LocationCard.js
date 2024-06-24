@@ -9,8 +9,7 @@ function LocationCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch();
   const { id, name, territory, region, debut, notable_inhabitants, img } = data;
-  const { toggleState, setToggle } = useToggle();
-
+  const { toggleState, setToggle } = useToggle({ state: false, btnId: '' });
 
   const extractedUrlPath = (url) => {
     // Find the index of ".com/" 
@@ -20,21 +19,19 @@ function LocationCard({ data }) {
     return extractedPath;
   }
 
-  const handleClick = () => {
+  const handleClick = (buttonId) => {
     fetchData(notable_inhabitants, 'notable');
-    setToggle(!toggleState);
+    setToggle(prevState => ({
+      ...prevState,
+      state: !prevState.state
+    }));
+    console.log(buttonId, toggleState)
   };
 
-  // const handleDebutFetch = (debut) => {
-  //   const fixedUrl = extractedUrlPath(debut);
-  //   fetchGeneralApiData(fixedUrl);
-  //   setToggle(!toggleState);
-  // }
-
-  // useEffect(() => {
-  //   const fixedUrl = extractedUrlPath(debut);
-  //   fetchGeneralApiData(fixedUrl, id);
-  // }, []);
+  useEffect(() => {
+    const fixedUrl = extractedUrlPath(debut);
+    fetchGeneralApiData(fixedUrl);
+  }, []);
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -54,14 +51,9 @@ function LocationCard({ data }) {
         <Typography variant="body2" color="text.secondary">
           Region: {region}
         </Typography>
-        <CardActions>
-          {notable_inhabitants && notable_inhabitants.length > 0 &&
-            <Button onClick={handleClick} size="large">{!toggleState ? 'Hide' : 'Learn More'}</Button>
-          }
-        </CardActions>
       </CardContent>
       <CardActions>
-        <Button onClick={() => setToggle(!toggleState)} size="large">{!toggleState ? 'Hide' : 'Learn More'}</Button>
+        <Button id={`stateBtn${id}`} onClick={() => setToggle(!toggleState)} size="large">{!toggleState ? 'Hide' : 'Show Debut:'}</Button>
         {
           !toggleState && generalApiData.name && generalApiData.name.length > 0 &&
           <Typography>
@@ -69,13 +61,20 @@ function LocationCard({ data }) {
           </Typography>
         }
       </CardActions>
-      {!toggleState && characterData.notable && characterData.notable.length > 0 &&
-        <ul> <b>Notable Inhabitants:</b>
-          {characterData.notable.map((char, index) => (
-            <li key={index}>{char.name}</li>
-          ))}
-        </ul>
-      }
+      <CardActions>
+        {notable_inhabitants && notable_inhabitants.length > 0 &&
+          <Button id={`notablesBtn${id}`} onClick={() => handleClick(`notablesBtn${id}`)} size="large">{!toggleState ? 'Hide' : 'More info'}</Button>
+        }
+      </CardActions>
+      <Typography>
+        {!toggleState && characterData.notable && characterData.notable.length > 0 &&
+          <ul> <b>Notable Inhabitants:</b>
+            {characterData.notable.map((char, index) => (
+              <li key={index}>{char.name}</li>
+            ))}
+          </ul>
+        }
+      </Typography>
     </Card>
   );
 }
