@@ -8,6 +8,7 @@ export function useToggle(cardId) {
             [cardId]: !prevData[cardId]
         }));
     };
-    toggle(cardId)
+    console.log(toggleState)
+
     return { toggleState, setToggle };
 }

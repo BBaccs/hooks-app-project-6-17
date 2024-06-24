@@ -61,7 +61,7 @@ function LocationCard({ data }) {
         </CardActions>
       </CardContent>
       <CardActions>
-        <Button onClick={() => setToggle(!toggleState)} size="large">{!toggleState ? 'Hide debut' : 'debut'}</Button>
+        <Button onClick={() => setToggle(!toggleState)} size="large">{!toggleState ? 'Hide' : 'Learn More'}</Button>
         {
           !toggleState && generalApiData.name && generalApiData.name.length > 0 &&
           <Typography>

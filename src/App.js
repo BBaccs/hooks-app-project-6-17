@@ -51,7 +51,7 @@ function App() {
           <Button variant="contained" onClick={() => handleClick('episodes')}>Episodes</Button>
         </Container>
         <Grid container>
-          {generalApiData.results && generalApiData.results.map((data, index) => (
+          {generalApiData.results && generalApiData.results.map((data) => (
             <Grid item xs={12} sm={6} md={6} key={data.id}>
               {getCardComponent(data, currentType)}
             </Grid>
