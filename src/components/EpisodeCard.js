@@ -9,29 +9,11 @@ function EpisodeCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { name, id, episode, characters, img } = data;
   const { toggleStates, setToggle } = useToggle({  });
-
-
-  // Try fetching again if it fails
+  
   const handleClick = (buttonId) => {
-    const attemptFetch = () => {
-      if (!characterData.notable || characterData.notable.length === 0) {
-        fetchData(characters, 'notable');
-        setToggle(buttonId);
-      }
-    };
-    // Initially attempt to fetch data
-    attemptFetch();
-    // Retry fetching data after 1 second if the first attempt didn't populate the data
-    setTimeout(() => {
-      attemptFetch();
-    }, 1000);
-  };
-  
-  
-//   const handleClick = (buttonId) => {
-//     characterData.notable && fetchData(characters, 'notable');
-//     setToggle(buttonId); 
-// };
+      characterData.notable && fetchData(characters, 'notable');
+      setToggle(buttonId); 
+};
 
   return (
     <Card key={id} sx={{ maxWidth: 345 }}>
