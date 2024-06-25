@@ -13,17 +13,19 @@ function LocationCard({ data }) {
 
 
   const extractedUrlPath = (url) => {
+    if (url && typeof url === 'string') {
     // Find the index of ".com/" 
-    console.log(url);
     const index = url.indexOf(".com/") + 5;  // Adding 5 to move past the length of ".com/"
     // Extract everything after ".com/"
     const extractedPath = url.substring(index);
     return extractedPath;
+    } else return false;
   }
 
   const handleClick = (buttonId) => {
-    fetchData(notable_inhabitants, 'notable');
     setToggle(buttonId); 
+    fetchData(notable_inhabitants, 'notable');
+
 };
 
 
@@ -35,7 +37,7 @@ const handleEpisodeClick = (buttonId) => {
     const fixedUrl = extractedUrlPath(debut);
     fetchGeneralApiData(fixedUrl);
     console.log('notables')
-  }, []);
+  }, [debut]);
 
   return (
     <Card sx={{ maxWidth: 345 }}>
