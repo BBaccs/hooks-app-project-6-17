@@ -9,11 +9,12 @@ function LocationCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch();
   const { id, name, territory, region, debut, notable_inhabitants, img } = data;
-  const { toggleStates, setToggle } = useToggle({ someBtnId: true, anotherBtnId: false });
+  const { toggleStates, setToggle } = useToggle({ });
 
 
   const extractedUrlPath = (url) => {
     // Find the index of ".com/" 
+    console.log(url);
     const index = url.indexOf(".com/") + 5;  // Adding 5 to move past the length of ".com/"
     // Extract everything after ".com/"
     const extractedPath = url.substring(index);
@@ -33,6 +34,7 @@ const handleEpisodeClick = (buttonId) => {
   useEffect(() => {
     const fixedUrl = extractedUrlPath(debut);
     fetchGeneralApiData(fixedUrl);
+    console.log('notables')
   }, []);
 
   return (
