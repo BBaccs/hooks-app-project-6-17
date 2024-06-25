@@ -14,7 +14,6 @@ function EpisodeCard({ data }) {
 
   const handleClick = (buttonId) => {
     if (!hasDataFetched && characterData.notable) {
-      console.log('FETCHING')
       fetchData(characters, 'notable');
       setHasDataFetched(true);
     }
@@ -24,7 +23,6 @@ function EpisodeCard({ data }) {
   useEffect(() => {
     if (toggleStates[`character-btn${id}`] && characterData.notable && characterData.notable.length > 0) {
       characterData.notable.forEach((member, index) => {
-        // console.log('storinglocally', member)
         window.localStorage.setItem(`Character List ${id}-${index}`, JSON.stringify([member.name, member.age]));
       });
     }

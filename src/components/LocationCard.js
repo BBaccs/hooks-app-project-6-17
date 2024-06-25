@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Button, CardActions, CardMedia } from '@mui/material';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
@@ -10,28 +10,32 @@ function LocationCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch();
   const { id, name, territory, region, debut, notable_inhabitants, img } = data;
-  const { toggleStates, setToggle } = useToggle({ });
+  const { toggleStates, setToggle } = useToggle({});
+  const [hasDataFetched, setHasDataFetched] = useState(false);
 
   const extractedUrlPath = (url) => {
     if (url && typeof url === 'string') {
-    // Find the index of ".com/" 
-    const index = url.indexOf(".com/") + 5;  // Adding 5 to move past the length of ".com/"
-    // Extract everything after ".com/"
-    const extractedPath = url.substring(index);
-    return extractedPath;
+      // Find the index of ".com/" 
+      const index = url.indexOf(".com/") + 5;  // Adding 5 to move past the length of ".com/"
+      // Extract everything after ".com/"
+      const extractedPath = url.substring(index);
+      return extractedPath;
     } else return false;
   }
 
+
+  // Local storage is not necessarry, unless we store it longterm and want to fetch it later.
   const handleClick = (buttonId) => {
-    setToggle(buttonId); 
-    fetchData(notable_inhabitants, 'notable');
+    if (!hasDataFetched) {
+      fetchData(notable_inhabitants, 'notable');
+      setHasDataFetched(true);
+    }
+    setToggle(buttonId);
+  };
 
-};
-
-
-const handleEpisodeClick = (buttonId) => {
-  setToggle(buttonId); 
-}
+  const handleEpisodeClick = (buttonId) => {
+    setToggle(buttonId);
+  }
 
   useEffect(() => {
     const fixedUrl = extractedUrlPath(debut);
