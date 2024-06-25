@@ -14,15 +14,17 @@ function LocationCard({ data }) {
   const [hasDataFetched, setHasDataFetched] = useState(false);
 
   const extractedUrlPath = (url) => {
-    if (url && typeof url === 'string') {
-      // Find the index of ".com/" 
-      const index = url.indexOf(".com/") + 5;  // Adding 5 to move past the length of ".com/"
+    if (url && typeof url === 'string' && url.startsWith('https')) {
+      // Find the index of ".com/" add 5 to move past the length of ".com/"
+      const index = url.indexOf(".com/") + 5;  
       // Extract everything after ".com/"
       const extractedPath = url.substring(index);
+      // console.log('extract', extractedPath)
       return extractedPath;
-    } else return false;
+    }
+    return null;
   }
-
+  
 
   // Local storage is not necessarry, unless we store it longterm and want to fetch it later.
   const handleClick = (buttonId) => {
@@ -38,8 +40,10 @@ function LocationCard({ data }) {
   }
 
   useEffect(() => {
-    const fixedUrl = extractedUrlPath(debut);
-    fetchGeneralApiData(fixedUrl);
+    if (debut && debut.length > 0) {
+      const fixedUrl = extractedUrlPath(debut);
+      fetchGeneralApiData(fixedUrl);
+    }
   }, [debut]);
 
   return (
