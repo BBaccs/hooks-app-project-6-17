@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Button, CardActions, CardMedia } from '@mui/material';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
@@ -9,12 +9,26 @@ import PropTypes from 'prop-types';
 function EpisodeCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { name, id, episode, characters, img } = data;
-  const { toggleStates, setToggle } = useToggle({  });
-  
+  const { toggleStates, setToggle } = useToggle({});
+  const [hasDataFetched, setHasDataFetched] = useState(false);
+
   const handleClick = (buttonId) => {
-      characterData.notable && fetchData(characters, 'notable');
-      setToggle(buttonId); 
-};
+    if (!hasDataFetched && characterData.notable) {
+      console.log('FETCHING')
+      fetchData(characters, 'notable');
+      setHasDataFetched(true);
+    }
+    setToggle(buttonId);
+  };
+
+  useEffect(() => {
+    if (toggleStates[`character-btn${id}`] && characterData.notable && characterData.notable.length > 0) {
+      characterData.notable.forEach((member, index) => {
+        // console.log('storinglocally', member)
+        window.localStorage.setItem(`Character List ${id}-${index}`, JSON.stringify([member.name, member.age]));
+      });
+    }
+  }, [toggleStates, characterData.notable, id]);
 
   return (
     <Card key={id} sx={{ maxWidth: 345 }}>
@@ -54,13 +68,13 @@ function EpisodeCard({ data }) {
 EpisodeCard.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string,
-    id: PropTypes.number.isRequired,          
+    id: PropTypes.number.isRequired,
     episode: PropTypes.string.isRequired,
     characters: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
-      age: PropTypes.number                   
+      age: PropTypes.number
     })),
-    img: PropTypes.string                     
+    img: PropTypes.string
   }).isRequired
 };
 

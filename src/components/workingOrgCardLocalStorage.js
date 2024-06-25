@@ -7,31 +7,31 @@ import PropTypes from 'prop-types';
 
 function OrganizationCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
-  const { toggleStates, setToggle } = useToggle({});
+  const { toggleStates, setToggle } = useToggle({  });
   const { name, id, affiliation, debut, notable_members, img } = data;
   const [hasDataFetched, setHasDataFetched] = useState(false);
   // Safe check to ensure notable_members is an array and has items
   const hasNotableMembers = Array.isArray(notable_members) && notable_members.length > 0;
 
-  const handleClick = (buttonId) => {
-    // Fetch data only if it hasn't been fetched yet
-    if (hasNotableMembers && !hasDataFetched) {
-      fetchData(notable_members, 'notable');
-      setHasDataFetched(true);
-    }
-    // If data has been fetched once ona specific card, only show/hide the data, don't fetch again.
-    setToggle(buttonId);
-  };
+const handleClick = (buttonId) => {
+  // Fetch data only if it hasn't been fetched yet
+  if (hasNotableMembers && !hasDataFetched) {
+    console.log('fetching')
+    fetchData(notable_members, 'notable');
+    setHasDataFetched(true);
+  }
+  setToggle(buttonId);
+};
 
-  // Store locally
-  useEffect(() => {
-    // Check if notable_members data is available and if it should be shown
-    if (toggleStates[`character-btn${id}`] && characterData.notable && characterData.notable.length > 0) {
-      characterData.notable.forEach((member, index) => {
-        window.localStorage.setItem(`Notable Members ${id}-${index}`, JSON.stringify(member.name));
-      });
-    }
-  }, [toggleStates, characterData.notable, id]);
+useEffect(() => {
+  // Check if notable_members data is available and if it should be shown
+  if (toggleStates[`character-btn${id}`] && characterData.notable && characterData.notable.length > 0) {
+    characterData.notable.forEach((member, index) => {
+      console.log(`Notable Members ${id}`, JSON.stringify(member.name));
+      window.localStorage.setItem(`Notable Members ${id}-${index}`, JSON.stringify(member.name));
+    });
+  }
+}, [toggleStates, characterData.notable, id]);
 
 
   return (
