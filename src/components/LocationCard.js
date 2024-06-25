@@ -1,27 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent, Typography, Button, CardActions, CardMedia } from '@mui/material';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
-import cleanImageUrl from '../Utilities/cleanImageUrl'
+import cleanImageUrl from '../Utilities/cleanImageUrl';
+import { useToggle } from "../hooks/useToggle";
 
 function LocationCard({ data }) {
-  const { characterData, showNames, fetchData, toggleShowNames } = useCharacterDataFetcher();
-  // const { generalData, setGeneralData } = useGeneralDataFetch();
+  const { characterData, fetchData } = useCharacterDataFetcher();
+  const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch();
   const { id, name, territory, region, debut, notable_inhabitants, img } = data;
+  const { toggleStates, setToggle } = useToggle({ });
 
-  const handleClick = () => {
-    fetchData(notable_inhabitants, id, 'notable');
-    toggleShowNames(!showNames);
-  };
 
-  // const handleClick2 = () => {
-  //   setGeneralData(debut, id)
-  //   console.log('bigdata', generalData, debut, id)
-  // }
+  const extractedUrlPath = (url) => {
+    if (url && typeof url === 'string') {
+    // Find the index of ".com/" 
+    const index = url.indexOf(".com/") + 5;  // Adding 5 to move past the length of ".com/"
+    // Extract everything after ".com/"
+    const extractedPath = url.substring(index);
+    return extractedPath;
+    } else return false;
+  }
 
-  // useEffect(() => {
-  //   fetchData(dataType);
-  // }, [dataType]);
+  const handleClick = (buttonId) => {
+    setToggle(buttonId); 
+    fetchData(notable_inhabitants, 'notable');
+
+};
+
+
+const handleEpisodeClick = (buttonId) => {
+  setToggle(buttonId); 
+}
+
+  useEffect(() => {
+    const fixedUrl = extractedUrlPath(debut);
+    fetchGeneralApiData(fixedUrl);
+    console.log('notables')
+  }, [debut]);
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -41,28 +57,30 @@ function LocationCard({ data }) {
         <Typography variant="body2" color="text.secondary">
           Region: {region}
         </Typography>
-        <CardActions>
-          {notable_inhabitants && notable_inhabitants.length > 0 &&
-            <Button onClick={handleClick} size="large">{showNames[id] ? 'Hide' : 'Learn More'}</Button>
-          }
-        </CardActions>
       </CardContent>
-      {/* <CardActions>
-        <Button onClick={handleClick2} size="large">debut</Button>
+      <CardActions>
+        <Button id={`stateBtn${id}`} onClick={() => handleEpisodeClick(`stateBtn${id}`)} size="large">{toggleStates[`stateBtn${id}`] ? 'Hide' : 'Show Debut:'}</Button>
         {
-          generalData && generalData.length &&
+          toggleStates[`stateBtn${id}`] && generalApiData.name && generalApiData.name.length > 0 &&
           <Typography>
-            Gen data: {generalData}
+            {generalApiData.episode}: {generalApiData.name}
           </Typography>
         }
-      </CardActions> */}
-      {showNames[id] && characterData.notable && characterData.notable.length > 0 &&
-        <ul> <b>Notable Inhabitants:</b>
-          {characterData.notable.map((char, index) => (
-            <li key={index}>{char.name}</li>
-          ))}
-        </ul>
-      }
+      </CardActions>
+      <CardActions>
+        {notable_inhabitants && notable_inhabitants.length > 0 &&
+          <Button id={`notablesBtn${id}`} onClick={() => handleClick(`notablesBtn${id}`)} size="large">{toggleStates[`notablesBtn${id}`] ? 'Hide' : 'Notable People'}</Button>
+        }
+      </CardActions>
+      <Typography>
+        {toggleStates && toggleStates[`notablesBtn${id}`] && characterData.notable && characterData.notable.length > 0 &&
+          <ul> <b>Notable Inhabitants:</b>
+            {characterData.notable.map((char, index) => (
+              <li key={index}>{char.name}</li>
+            ))}
+          </ul>
+        }
+      </Typography>
     </Card>
   );
 }

@@ -1,0 +1,10 @@
+  // const handleDebutFetch = (debut) => {
+  //   const fixedUrl = extractedUrlPath(debut);
+  //   fetchGeneralApiData(fixedUrl);
+  //   setToggle(!toggleState);
+  // }
+
+  // useEffect(() => {
+  //   const fixedUrl = extractedUrlPath(debut);
+  //   fetchGeneralApiData(fixedUrl, id);
+  // }, []);
