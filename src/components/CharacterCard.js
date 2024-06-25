@@ -50,7 +50,10 @@ CharacterCard.propTypes = {
     img: PropTypes.string,
     alias: PropTypes.arrayOf(PropTypes.string),
     height: PropTypes.string,
-    age: PropTypes.number,
+    age: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
     roles: PropTypes.arrayOf(PropTypes.string),
     groups: PropTypes.arrayOf(PropTypes.shape({
       sub_groups: PropTypes.arrayOf(PropTypes.string)
