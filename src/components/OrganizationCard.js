@@ -23,16 +23,14 @@ function OrganizationCard({ data }) {
     setToggle(buttonId);
   };
 
-  // Store locally
-  useEffect(() => {
-    // Check if notable_members data is available and if it should be shown
-    if (toggleStates[`character-btn${id}`] && characterData.notable && characterData.notable.length > 0) {
-      characterData.notable.forEach((member, index) => {
-        window.localStorage.setItem(`Notable Members ${id}-${index}`, JSON.stringify(member.name));
-      });
-    }
-  }, [toggleStates, characterData.notable, id]);
-
+  // useEffect(() => {
+  //   // Check if notable_members data is available and if it should be shown
+  //   if (toggleStates[`character-btn${id}`] && characterData.notable && characterData.notable.length > 0) {
+  //     characterData.notable.forEach((member, index) => {
+  //       window.localStorage.setItem(`Notable Members ${id}-${index}`, JSON.stringify(member.name));
+  //     });
+  //   }
+  // }, [toggleStates, characterData.notable, id]);
 
   return (
     <Card key={id} sx={{ maxWidth: 500 }}>

@@ -20,13 +20,13 @@ function EpisodeCard({ data }) {
     setToggle(buttonId);
   };
 
-  useEffect(() => {
-    if (toggleStates[`character-btn${id}`] && characterData.notable && characterData.notable.length > 0) {
-      characterData.notable.forEach((member, index) => {
-        window.localStorage.setItem(`Character List ${id}-${index}`, JSON.stringify([member.name, member.age]));
-      });
-    }
-  }, [toggleStates, characterData.notable, id]);
+  // useEffect(() => {
+  //   if (toggleStates[`character-btn${id}`] && characterData.notable && characterData.notable.length > 0) {
+  //     characterData.notable.forEach((member, index) => {
+  //       window.localStorage.setItem(`Character List ${id}-${index}`, JSON.stringify([member.name, member.age]));
+  //     });
+  //   }
+  // }, [toggleStates, characterData.notable, id]);
 
   return (
     <Card key={id} sx={{ maxWidth: 345 }}>
