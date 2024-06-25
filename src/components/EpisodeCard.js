@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardContent, Typography, Button, CardActions, CardMedia } from '@mui/material';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
@@ -8,7 +8,7 @@ import './../App.css';
 function EpisodeCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { name, id, episode, characters, img } = data;
-  const { toggleStates, setToggle } = useToggle({  });
+  const { toggleStates, setToggle } = useToggle({});
 
 
   // Try fetching again if it fails
@@ -26,12 +26,12 @@ function EpisodeCard({ data }) {
       attemptFetch();
     }, 1000);
   };
-  
-  
-//   const handleClick = (buttonId) => {
-//     characterData.notable && fetchData(characters, 'notable');
-//     setToggle(buttonId); 
-// };
+
+
+  //   const handleClick = (buttonId) => {
+  //     characterData.notable && fetchData(characters, 'notable');
+  //     setToggle(buttonId); 
+  // };
 
   return (
     <Card key={id} sx={{ maxWidth: 345 }}>

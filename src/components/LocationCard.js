@@ -9,29 +9,29 @@ function LocationCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch();
   const { id, name, territory, region, debut, notable_inhabitants, img } = data;
-  const { toggleStates, setToggle } = useToggle({ });
+  const { toggleStates, setToggle } = useToggle({});
 
 
   const extractedUrlPath = (url) => {
     if (url && typeof url === 'string') {
-    // Find the index of ".com/" 
-    const index = url.indexOf(".com/") + 5;  // Adding 5 to move past the length of ".com/"
-    // Extract everything after ".com/"
-    const extractedPath = url.substring(index);
-    return extractedPath;
+      // Find the index of ".com/" 
+      const index = url.indexOf(".com/") + 5;  // Adding 5 to move past the length of ".com/"
+      // Extract everything after ".com/"
+      const extractedPath = url.substring(index);
+      return extractedPath;
     } else return false;
   }
 
   const handleClick = (buttonId) => {
-    setToggle(buttonId); 
+    setToggle(buttonId);
     fetchData(notable_inhabitants, 'notable');
 
-};
+  };
 
 
-const handleEpisodeClick = (buttonId) => {
-  setToggle(buttonId); 
-}
+  const handleEpisodeClick = (buttonId) => {
+    setToggle(buttonId);
+  }
 
   useEffect(() => {
     const fixedUrl = extractedUrlPath(debut);

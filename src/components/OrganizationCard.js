@@ -6,15 +6,15 @@ import { useToggle } from "../hooks/useToggle";
 
 function OrganizationCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
-  const { toggleStates, setToggle } = useToggle({  });
+  const { toggleStates, setToggle } = useToggle({});
   const { name, id, affiliation, debut, notable_members, img } = data;
   // Safe check to ensure notable_members is an array and has items
   const hasNotableMembers = Array.isArray(notable_members) && notable_members.length > 0;
 
   const handleClick = (buttonId) => {
     hasNotableMembers && fetchData(notable_members, 'notable');
-    setToggle(buttonId); 
-};
+    setToggle(buttonId);
+  };
   return (
     <Card sx={{ maxWidth: 500 }}>
       <CardMedia
