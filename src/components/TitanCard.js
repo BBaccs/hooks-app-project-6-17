@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
+import PropTypes from 'prop-types';
 
 function TitanCard({ data }) {
     const { characterData, fetchData } = useCharacterDataFetcher();
@@ -20,7 +21,7 @@ function TitanCard({ data }) {
         }
     }, [former_inheritors]);
     return (
-        <Card sx={{ maxWidth: 345, marginTop: '40px' }}>
+        <Card key={id} sx={{ maxWidth: 345, marginTop: '40px' }}>
             <CardMedia
                 component="img"
                 alt=""
@@ -72,5 +73,20 @@ function TitanCard({ data }) {
         </Card>
     );
 }
+
+TitanCard.propTypes = {
+    data: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        abilities: PropTypes.string,
+        allegiance: PropTypes.string,
+        height: PropTypes.string,
+        relatives: PropTypes.string,
+        current_inheritor: PropTypes.string,
+        former_inheritors: PropTypes.arrayOf(PropTypes.string),
+        img: PropTypes.string
+    }).isRequired
+};
+
 
 export default TitanCard;

@@ -3,6 +3,7 @@ import { Card, CardContent, CardMedia, Typography, CardActions, Button } from '@
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import { useToggle } from "../hooks/useToggle";
+import PropTypes from 'prop-types';
 
 function OrganizationCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
@@ -16,7 +17,7 @@ function OrganizationCard({ data }) {
     setToggle(buttonId); 
 };
   return (
-    <Card sx={{ maxWidth: 500 }}>
+    <Card key={id} sx={{ maxWidth: 500 }}>
       <CardMedia
         component="img"
         alt=""
@@ -66,5 +67,23 @@ function OrganizationCard({ data }) {
     </Card>
   );
 }
+
+OrganizationCard.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string,
+    affiliation: PropTypes.string,
+    debut: PropTypes.string,
+    notable_members: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      age: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+      ])
+    })),
+    img: PropTypes.string
+  }).isRequired
+};
+
 
 export default OrganizationCard;

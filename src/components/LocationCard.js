@@ -4,13 +4,13 @@ import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 import { useToggle } from "../hooks/useToggle";
+import PropTypes from 'prop-types';
 
 function LocationCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch();
   const { id, name, territory, region, debut, notable_inhabitants, img } = data;
   const { toggleStates, setToggle } = useToggle({ });
-
 
   const extractedUrlPath = (url) => {
     if (url && typeof url === 'string') {
@@ -40,7 +40,7 @@ const handleEpisodeClick = (buttonId) => {
   }, [debut]);
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card key={id} sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         alt=""
@@ -84,5 +84,18 @@ const handleEpisodeClick = (buttonId) => {
     </Card>
   );
 }
+
+LocationCard.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    territory: PropTypes.string,
+    region: PropTypes.string,
+    debut: PropTypes.string,
+    notable_inhabitants: PropTypes.arrayOf(PropTypes.string),
+    img: PropTypes.string
+  }).isRequired
+};
+
 
 export default LocationCard;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardActions, CardContent, CardMedia, Typography, Button } from '@mui/material';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
+import PropTypes from 'prop-types';
 
 function CharacterCard({ data }) {
   const [toggleAlias, setToggleAlias] = useState(false);
@@ -8,7 +9,7 @@ function CharacterCard({ data }) {
   const subGroups = groups && groups.length > 0 ? groups[0].sub_groups : [];
 
   return (
-    <Card id={id} sx={{ maxWidth: 345, marginBottom: '50px' }}>
+    <Card key={id} sx={{ maxWidth: 345, marginBottom: '50px' }}>
       <CardMedia
         component="img"
         alt=""
@@ -41,5 +42,20 @@ function CharacterCard({ data }) {
     </Card>
   );
 }
+
+CharacterCard.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    img: PropTypes.string,
+    alias: PropTypes.arrayOf(PropTypes.string),
+    height: PropTypes.string,
+    age: PropTypes.number,
+    roles: PropTypes.arrayOf(PropTypes.string),
+    groups: PropTypes.arrayOf(PropTypes.shape({
+      sub_groups: PropTypes.arrayOf(PropTypes.string)
+    }))
+  }).isRequired
+};
 
 export default CharacterCard;
