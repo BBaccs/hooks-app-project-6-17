@@ -12,7 +12,6 @@ function LocationCard({ data }) {
   const { id, name, territory, region, debut, notable_inhabitants, img } = data;
   const { toggleStates, setToggle } = useToggle({ });
 
-
   const extractedUrlPath = (url) => {
     if (url && typeof url === 'string') {
     // Find the index of ".com/" 

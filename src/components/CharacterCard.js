@@ -45,9 +45,16 @@ function CharacterCard({ data }) {
 
 CharacterCard.propTypes = {
   data: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    age: PropTypes.number,
-    description: PropTypes.string
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string,
+    height: PropTypes.string,
+    age: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    roles: PropTypes.arrayOf(PropTypes.string),
+    img: PropTypes.string,
+    alias: PropTypes.arrayOf(PropTypes.string),
+    groups: PropTypes.arrayOf(PropTypes.shape({
+      sub_groups: PropTypes.arrayOf(PropTypes.string)
+    })),
   }).isRequired
 };
 
