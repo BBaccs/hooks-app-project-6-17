@@ -36,7 +36,6 @@ const handleEpisodeClick = (buttonId) => {
   useEffect(() => {
     const fixedUrl = extractedUrlPath(debut);
     fetchGeneralApiData(fixedUrl);
-    console.log('notables')
   }, [debut]);
 
   return (

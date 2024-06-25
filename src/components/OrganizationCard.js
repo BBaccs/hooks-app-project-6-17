@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent, CardMedia, Typography, CardActions, Button } from '@mui/material';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
@@ -14,8 +14,20 @@ function OrganizationCard({ data }) {
 
   const handleClick = (buttonId) => {
     hasNotableMembers && fetchData(notable_members, 'notable');
-    setToggle(buttonId); 
+    setToggle(buttonId);
 };
+
+useEffect(() => {
+  // Check if notable_members data is available and if it should be shown
+  if (toggleStates[`character-btn${id}`] && characterData.notable && characterData.notable.length > 0) {
+    characterData.notable.forEach((member, index) => {
+      console.log(`Notable Members ${id}`, JSON.stringify(member.name));
+      window.localStorage.setItem(`Notable Members ${id}-${index}`, JSON.stringify(member.name));
+    });
+  }
+}, [toggleStates, characterData.notable, id]);
+
+
   return (
     <Card key={id} sx={{ maxWidth: 500 }}>
       <CardMedia

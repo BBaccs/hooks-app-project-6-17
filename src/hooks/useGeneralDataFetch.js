@@ -10,7 +10,6 @@ export default function useGeneralDataFetch(type) {
                 throw new Error('Network response was not ok ' + response.statusText);
             }
             const apiData = await response.json();
-            // console.log(apiData)
             setApiData(apiData);
 
         } catch (error) {

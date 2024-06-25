@@ -37,7 +37,6 @@ function EpisodeCard({ data }) {
       </CardActions>
       <>
         <ul id={id} className={toggleStates[`character-btn${id}`] ? 'show' : 'hide'}>
-          {console.log(characterData.notable)}
           {characterData.notable.map((char, index) =>
             <li className="mb-2" key={index}>
               <span><b>Name:</b> {char.name}</span>
