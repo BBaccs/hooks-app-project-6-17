@@ -10,13 +10,20 @@ import useGeneralDataFetch from './hooks/useGeneralDataFetch';
 
 function App() {
   const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch();
+  const [dataCache, setDataCache] = useState({});
   const [currentType, setCurrentType] = useState('');
 
   useEffect(() => {
-    if (currentType) {
-      fetchGeneralApiData(currentType);
+    if (currentType && !dataCache[currentType]) {
+      console.log("Fetching data for:", currentType);
+      fetchGeneralApiData(currentType).then(fetchedData => {
+        setDataCache(prevData => ({
+          ...prevData,
+          [currentType]: fetchedData
+        }));
+      });
     }
-  }, [currentType]);
+  }, [currentType, fetchGeneralApiData]);
 
   const handleClick = (type) => {
     setCurrentType(type); // Trigger the useEffect
