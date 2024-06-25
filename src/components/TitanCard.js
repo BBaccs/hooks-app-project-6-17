@@ -4,19 +4,19 @@ import cleanImageUrl from '../Utilities/cleanImageUrl';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 
 function TitanCard({ data }) {
-    const { characterData, showNames, fetchData } = useCharacterDataFetcher();
+    const { characterData, fetchData } = useCharacterDataFetcher();
     const { name, id, height, abilities, relatives, allegiance, former_inheritors, current_inheritor, img } = data;
 
     useEffect(() => {
         // Check if current_inheritor is undefined or it will throw an error
         if (current_inheritor) {
-            fetchData(current_inheritor, id, 'current');
+            fetchData(current_inheritor, 'current');
         }
     }, [current_inheritor]);
 
     useEffect(() => {
         if (former_inheritors) {
-            fetchData(former_inheritors, id, 'former');
+            fetchData(former_inheritors, 'former');
         }
     }, [former_inheritors]);
     return (
