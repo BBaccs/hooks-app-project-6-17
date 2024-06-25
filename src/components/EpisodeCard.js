@@ -4,6 +4,7 @@ import cleanImageUrl from '../Utilities/cleanImageUrl';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import { useToggle } from "../hooks/useToggle";
 import './../App.css';
+import PropTypes from 'prop-types';
 
 function EpisodeCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
@@ -50,5 +51,19 @@ function EpisodeCard({ data }) {
     </Card>
   );
 }
+
+EpisodeCard.propTypes = {
+  data: PropTypes.shape({
+    name: PropTypes.string,
+    id: PropTypes.number.isRequired,          
+    episode: PropTypes.string.isRequired,
+    characters: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      age: PropTypes.number                   
+    })),
+    img: PropTypes.string                     
+  }).isRequired
+};
+
 
 export default EpisodeCard;

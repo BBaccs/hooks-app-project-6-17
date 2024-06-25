@@ -1,10 +1,8 @@
-  // const handleDebutFetch = (debut) => {
-  //   const fixedUrl = extractedUrlPath(debut);
-  //   fetchGeneralApiData(fixedUrl);
-  //   setToggle(!toggleState);
-  // }
+TODO:
 
-  // useEffect(() => {
-  //   const fixedUrl = extractedUrlPath(debut);
-  //   fetchGeneralApiData(fixedUrl, id);
-  // }, []);
+// Add propsTypes / default props
+// Learn and add context, could be for accessibility? or for a theme change.
+// Make another using another api like DBZ/swapi etc.
+
+
+// Go through via chatGPT and refactor (maybe only after i've made another for reference so i don't overcxomplicate thsi one)

@@ -41,7 +41,7 @@ const handleEpisodeClick = (buttonId) => {
   }, [debut]);
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card key={id} sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         alt=""

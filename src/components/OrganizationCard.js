@@ -17,7 +17,7 @@ function OrganizationCard({ data }) {
     setToggle(buttonId); 
 };
   return (
-    <Card sx={{ maxWidth: 500 }}>
+    <Card key={id} sx={{ maxWidth: 500 }}>
       <CardMedia
         component="img"
         alt=""
