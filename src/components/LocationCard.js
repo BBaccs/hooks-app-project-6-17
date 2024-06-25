@@ -4,6 +4,7 @@ import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 import { useToggle } from "../hooks/useToggle";
+import PropTypes from 'prop-types';
 
 function LocationCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
@@ -84,5 +85,18 @@ const handleEpisodeClick = (buttonId) => {
     </Card>
   );
 }
+
+LocationCard.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    territory: PropTypes.string,
+    region: PropTypes.string,
+    debut: PropTypes.string,
+    notable_inhabitants: PropTypes.arrayOf(PropTypes.string),
+    img: PropTypes.string
+  }).isRequired
+};
+
 
 export default LocationCard;

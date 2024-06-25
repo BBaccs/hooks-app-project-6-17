@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, CardActions, CardContent, CardMedia, Typography, Button } from '@mui/material';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
+import PropTypes from 'prop-types';
 
 function CharacterCard({ data }) {
   const [toggleAlias, setToggleAlias] = useState(false);
@@ -41,5 +42,13 @@ function CharacterCard({ data }) {
     </Card>
   );
 }
+
+CharacterCard.propTypes = {
+  data: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    age: PropTypes.number,
+    description: PropTypes.string
+  }).isRequired
+};
 
 export default CharacterCard;
