@@ -2,14 +2,19 @@ import React from 'react';
 import { Card, CardContent, CardMedia, Typography, CardActions, Button } from '@mui/material';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
+import { useToggle } from "../hooks/useToggle";
 
 function OrganizationCard({ data }) {
-  const { characterData, showNames, fetchData } = useCharacterDataFetcher();
+  const { characterData, fetchData } = useCharacterDataFetcher();
+  const { toggleStates, setToggle } = useToggle({  });
   const { name, id, affiliation, debut, notable_members, img } = data;
   // Safe check to ensure notable_members is an array and has items
   const hasNotableMembers = Array.isArray(notable_members) && notable_members.length > 0;
 
-
+  const handleClick = (buttonId) => {
+    hasNotableMembers && fetchData(notable_members, 'notable');
+    setToggle(buttonId); 
+};
   return (
     <Card sx={{ maxWidth: 500 }}>
       <CardMedia
@@ -43,12 +48,12 @@ function OrganizationCard({ data }) {
       </CardContent>
       <CardActions>
         {hasNotableMembers ? (
-          <Button onClick={() => fetchData(notable_members, id,'notable')} size="large">{showNames[id] ? 'hide' : 'show'} Notable Members</Button>
+          <Button id={toggleStates[`character-btn${id}`]} onClick={() => handleClick(`character-btn${id}`)} size="large">{toggleStates[`character-btn${id}`] ? 'hide' : 'show'} Notable Members</Button>
         ) : (
           <p>No known notable members</p>
         )}
       </CardActions>
-      <ul id={id} className={showNames[id] ? 'show' : 'hide'}>
+      <ul id={id} className={toggleStates[`character-btn${id}`] ? 'show' : 'hide'}>
         {characterData.notable.map((char, index) => (
           <li className="mb-2" key={index}>
             <span><b>Name:</b> {char.name}</span>
