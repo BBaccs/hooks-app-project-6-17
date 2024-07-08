@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Button, CardActions, CardMedia } from '@mui/material';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
@@ -13,6 +13,7 @@ function LocationCard({ data }) {
   const { toggleStates, setToggle } = useToggle({});
   const [hasDataFetched, setHasDataFetched] = useState(false);
 
+  // Function to extract URL path from a full URL
   const extractedUrlPath = (url) => {
     if (url && typeof url === 'string' && url.startsWith('https')) {
       // Find the index of ".com/" add 5 to move past the length of ".com/"
@@ -24,8 +25,7 @@ function LocationCard({ data }) {
     return null;
   }
 
-
-  // Local storage is not necessarry, unless we store it longterm and want to fetch it later.
+  // Handler for fetching notable inhabitants and toggling state
   const handleClick = (buttonId) => {
     if (!hasDataFetched) {
       fetchData(notable_inhabitants, 'notable');
@@ -38,6 +38,7 @@ function LocationCard({ data }) {
     setToggle(buttonId);
   }
 
+  // Fetch general API data on component mount if debut exists
   useEffect(() => {
     if (debut && debut.length > 0) {
       const fixedUrl = extractedUrlPath(debut);
@@ -48,6 +49,18 @@ function LocationCard({ data }) {
   const buttonId = `stateBtn${id}`;
   const isToggled = toggleStates[buttonId];
   const hasName = generalApiData.name && generalApiData.name.length > 0;
+
+  // Render notable inhabs if they exist
+  const renderNotableInhabitants = () => (
+    toggleStates[`notablesBtn${id}`] && characterData.notable && characterData.notable.length > 0 && (
+      <ul>
+        <b>Notable Inhabitants:</b>
+        {characterData.notable.map((char, index) => (
+          <li key={index}>{char.name}</li>
+        ))}
+      </ul>
+    )
+  );
 
   return (
     <Card key={id} sx={{ maxWidth: 345 }}>
@@ -82,19 +95,15 @@ function LocationCard({ data }) {
           </Typography>
         )}
       </CardActions>
-      <CardActions>
-        {notable_inhabitants && notable_inhabitants.length > 0 &&
-          <Button id={`notablesBtn${id}`} onClick={() => handleClick(`notablesBtn${id}`)} size="large">{toggleStates[`notablesBtn${id}`] ? 'Hide' : 'Notable People'}</Button>
-        }
-      </CardActions>
+      {notable_inhabitants && notable_inhabitants.length > 0 && (
+        <CardActions>
+          <Button id={`notablesBtn${id}`} onClick={() => handleClick(`notablesBtn${id}`)} size="large">
+            {toggleStates[`notablesBtn${id}`] ? 'Hide' : 'Notable People'}
+          </Button>
+        </CardActions>
+      )}
       <Typography>
-        {toggleStates && toggleStates[`notablesBtn${id}`] && characterData.notable && characterData.notable.length > 0 &&
-          <ul> <b>Notable Inhabitants:</b>
-            {characterData.notable.map((char, index) => (
-              <li key={index}>{char.name}</li>
-            ))}
-          </ul>
-        }
+        {renderNotableInhabitants()}
       </Typography>
     </Card>
   );
@@ -111,6 +120,5 @@ LocationCard.propTypes = {
     img: PropTypes.string
   }).isRequired
 };
-
 
 export default LocationCard;
