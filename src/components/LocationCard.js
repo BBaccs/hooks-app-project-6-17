@@ -1,10 +1,5 @@
-<<<<<<< Updated upstream
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography, Button, CardActions, CardMedia } from '@mui/material';
-=======
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
->>>>>>> Stashed changes
+import { Typography } from '@mui/material';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
