@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Paper, Grid, Button, Container } from '@mui/material';
 import CharacterCard from './components/CharacterCard';
 import TitanCard from './components/TitanCard';
@@ -39,14 +39,14 @@ function App() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Container className="spinner-container"><div className="spinner"></div></Container>;
   if (isError) return <div>Error: {isError}</div>;
 
   return (
     <Container maxWidth="lg" style={{ marginTop: '20px' }}>
       <Paper elevation={3} style={{ padding: '20px' }}>
         <h1 style={{ textAlign: 'center' }}>Attack on Titan API</h1>
-        <Container maxWidth="md" className='btn-container'>
+        <Container maxWidth="md" className="btn-container">
           <Button variant="contained" onClick={() => handleClick('characters')}>Characters</Button>
           <Button variant="contained" onClick={() => handleClick('locations')}>Locations</Button>
           <Button variant="contained" onClick={() => handleClick('organizations')}>Organizations</Button>
