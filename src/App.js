@@ -44,7 +44,6 @@ function App() {
   };
 
   if (isLoading) return <LoadingSpinner className="spinner-container" />;
-  // if (isLoading) return <SpinnerContainer><Spinner /></SpinnerContainer>;
   if (isError) return <ErrorComponent message={isError} />;
   return (
     <StyledContainer maxWidth="lg" style={{ marginTop: '20px' }}>
