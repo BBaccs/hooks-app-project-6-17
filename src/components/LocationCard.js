@@ -16,14 +16,14 @@ function LocationCard({ data }) {
   const extractedUrlPath = (url) => {
     if (url && typeof url === 'string' && url.startsWith('https')) {
       // Find the index of ".com/" add 5 to move past the length of ".com/"
-      const index = url.indexOf(".com/") + 5;  
+      const index = url.indexOf(".com/") + 5;
       // Extract everything after ".com/"
       const extractedPath = url.substring(index);
       return extractedPath;
     }
     return null;
   }
-  
+
 
   // Local storage is not necessarry, unless we store it longterm and want to fetch it later.
   const handleClick = (buttonId) => {
@@ -45,6 +45,10 @@ function LocationCard({ data }) {
     }
   }, [debut]);
 
+  const buttonId = `stateBtn${id}`;
+  const isToggled = toggleStates[buttonId];
+  const hasName = generalApiData.name && generalApiData.name.length > 0;
+
   return (
     <Card key={id} sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -65,13 +69,18 @@ function LocationCard({ data }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button id={`stateBtn${id}`} onClick={() => handleEpisodeClick(`stateBtn${id}`)} size="large">{toggleStates[`stateBtn${id}`] ? 'Hide' : 'Show Debut:'}</Button>
-        {
-          toggleStates[`stateBtn${id}`] && generalApiData.name && generalApiData.name.length > 0 &&
+        <Button
+          id={buttonId}
+          onClick={() => handleEpisodeClick(buttonId)}
+          size="large"
+        >
+          {isToggled ? 'Hide' : 'Show Debut:'}
+        </Button>
+        {isToggled && (
           <Typography>
-            {generalApiData.episode}: {generalApiData.name}
+            {hasName ? `${generalApiData.episode}: ${generalApiData.name}` : 'Unknown'}
           </Typography>
-        }
+        )}
       </CardActions>
       <CardActions>
         {notable_inhabitants && notable_inhabitants.length > 0 &&
