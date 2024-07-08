@@ -9,7 +9,6 @@ function TitanCard({ data }) {
     const { name, id, height, abilities, relatives, allegiance, former_inheritors, current_inheritor, img } = data;
 
     useEffect(() => {
-        // Check if current_inheritor is undefined or it will throw an error
         if (current_inheritor) {
             fetchData(current_inheritor, 'current');
         }
@@ -20,6 +19,7 @@ function TitanCard({ data }) {
             fetchData(former_inheritors, 'former');
         }
     }, [former_inheritors]);
+
     return (
         <Card key={id} sx={{ maxWidth: 345, marginTop: '40px' }}>
             <CardMedia
@@ -42,8 +42,8 @@ function TitanCard({ data }) {
                     Abilities:
                     {abilities && abilities.length > 0 && (
                         <ul>
-                            {abilities.map((ability) => (
-                                <li key={ability.id}>{ability}</li>
+                            {abilities.map((ability, index) => (
+                                <li key={index}>{ability}</li>
                             ))}
                         </ul>
                     )}
@@ -68,7 +68,6 @@ function TitanCard({ data }) {
                         )}
                     </ul>
                 </Typography>
-
             </CardContent>
         </Card>
     );
@@ -78,15 +77,16 @@ TitanCard.propTypes = {
     data: PropTypes.shape({
         id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
-        abilities: PropTypes.string,
+        abilities: PropTypes.arrayOf(PropTypes.string),
         allegiance: PropTypes.string,
         height: PropTypes.string,
-        relatives: PropTypes.string,
+        relatives: PropTypes.arrayOf(PropTypes.shape({
+            family: PropTypes.string
+        })),
         current_inheritor: PropTypes.string,
         former_inheritors: PropTypes.arrayOf(PropTypes.string),
         img: PropTypes.string
     }).isRequired
 };
-
 
 export default TitanCard;
