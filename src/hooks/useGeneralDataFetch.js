@@ -17,7 +17,7 @@ export default function useGeneralDataFetch() {
                 console.error('There was a problem with the fetch operation:', error);
             }
         } else {
-            console.error('URL from API was "unknown" no action necessarry:', type);
+            console.error('URL from API was "unknown". This is normal and NO ACTION is necessarry:', type);
         }
 
     }
