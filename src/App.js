@@ -1,6 +1,8 @@
 import './App.css';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Paper, Grid, Button, Container } from '@mui/material';
+import LoadingSpinner from './components/LoadingSpinner';
+import ErrorComponent from './components/ErrorComponent';
 import CharacterCard from './components/CharacterCard';
 import TitanCard from './components/TitanCard';
 import LocationCard from './components/LocationCard';
@@ -39,8 +41,8 @@ function App() {
     }
   };
 
-  if (isLoading) return <Container className="spinner-container"><div className="spinner"></div></Container>;
-  if (isError) return <div>Error: {isError}</div>;
+  if (isLoading) return <LoadingSpinner className="spinner-container" />;
+  if (isError) return <ErrorComponent message={isError} />;
 
   return (
     <Container maxWidth="lg" style={{ marginTop: '20px' }}>
