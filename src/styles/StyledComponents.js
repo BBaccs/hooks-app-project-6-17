@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { Typography, CardContent, Button, CardActions, CardMedia, Container, Paper } from '@mui/material';
+import { Typography, CardContent, Button, CardActions, CardMedia, Container, Paper, Card } from '@mui/material';
 
 const spin = keyframes`
   0% { transform: rotate(0deg); }
@@ -48,8 +48,9 @@ export const SpinnerContainer = styled(Container)`
   align-items: center;
 `;
 
-export const StyledCard = styled.div`
-  max-width: 345px;
+export const StyledCard = styled(Card).attrs(() => ({
+  sx: { maxWidth: 345 }
+}))`
   margin: 10px;
 `;
 
