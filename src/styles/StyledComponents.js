@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { Typography, CardContent, Button, CardActions, CardMedia, Container, Paper, Card } from '@mui/material';
 
 // Define the keyframes for the spinner animation
@@ -70,4 +70,16 @@ export const StyledOrganizationCard = styled(Card).attrs(() => ({
   sx: { maxWidth: 500 }
 }))`
   margin: 10px;
+`;
+
+const showHideStyles = css`
+  display: ${({ show }) => (show ? 'initial' : 'none')} !important;
+`;
+
+export const ToggleableList = styled.ul`
+  ${showHideStyles}
+`;
+
+export const ToggleableItem = styled.li`
+  margin-bottom: 10px;
 `;

@@ -6,7 +6,9 @@ import {
   StyledTypography,
   StyledButton,
   StyledCardActions,
-  StyledCardMedia
+  StyledCardMedia,
+  ToggleableList,
+  ToggleableItem
 } from '../styles/StyledComponents';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
@@ -80,16 +82,17 @@ function OrganizationCard({ data }) {
           <p>No known notable members</p>
         )}
       </StyledCardActions>
-      <ul id={id} className={toggleStates[`character-btn${id}`] ? 'show' : 'hide'}>
+
+      <ToggleableList id={id} show={toggleStates[`character-btn${id}`]}>
         {characterData.notable.map((char, index) => (
-          <li className="mb-2" key={index}>
+          <ToggleableItem key={index}>
             <span><b>Name:</b> {char.name}</span>
             <span style={{ display: 'block' }}>
               {char.age && char.age !== 'unknown' ? <><b>Age:</b> {char.age}</> : ''}
             </span>
-          </li>
+          </ToggleableItem>
         ))}
-      </ul>
+      </ToggleableList>
     </StyledOrganizationCard>
   );
 }
