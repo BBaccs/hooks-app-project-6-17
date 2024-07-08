@@ -1,11 +1,13 @@
 import styled, { keyframes } from 'styled-components';
 import { Typography, CardContent, Button, CardActions, CardMedia, Container, Paper, Card } from '@mui/material';
 
+// Define the keyframes for the spinner animation
 const spin = keyframes`
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 `;
 
+// Styled components
 export const StyledContainer = styled(Container)`
   margin-top: 20px;
 `;
@@ -63,3 +65,9 @@ export const StyledCardContent = styled(CardContent)``;
 export const StyledCardActions = styled(CardActions)``;
 
 export const StyledCardMedia = styled(CardMedia)``;
+
+export const StyledOrganizationCard = styled(Card).attrs(() => ({
+  sx: { maxWidth: 500 }
+}))`
+  margin: 10px;
+`;
