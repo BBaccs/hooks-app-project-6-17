@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Typography } from '@mui/material';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
-import { extractUrlPath } from '../Utilities/extractUrlPath'
+import { extractUrlPath } from '../Utilities/extractUrlPath';
 import { useToggle } from "../hooks/useToggle";
 import { Typography } from '@mui/material';
 import {
@@ -29,7 +29,7 @@ function LocationCard({ data }) {
       setHasDataFetched(true);
     }
     setToggle(buttonId);
-  }, [hasDataFetched, fetchData, notable_inhabitants, setToggle]); // These funcs won't change but it's best practice to use as dependacies
+  }, [hasDataFetched, fetchData, notable_inhabitants, setToggle]);  // These funcs won't change but it's best practice to use as dependacies
 
   const handleEpisodeClick = (buttonId) => {
     setToggle(buttonId);
@@ -45,8 +45,7 @@ function LocationCard({ data }) {
 
   const buttonId = `stateBtn${id}`;
   const isToggled = toggleStates[buttonId];
-  const hasName = useMemo(() => generalApiData.name && generalApiData.name.length > 0,
-    [generalApiData.name]);
+  const hasName = useMemo(() => generalApiData.name && generalApiData.name.length > 0, [generalApiData.name]);
 
   // Render notable inhabitants if they exist
   const renderNotableInhabitants = useMemo(() => (
