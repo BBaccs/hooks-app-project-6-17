@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardMedia, Typography, CardActions, Button } from '@mui/material';
+import PropTypes from 'prop-types';
+import {
+  StyledOrganizationCard,
+  StyledCardContent,
+  StyledTypography,
+  StyledButton,
+  StyledCardActions,
+  StyledCardMedia,
+  ToggleableList,
+  ToggleableItem
+} from '../styles/StyledComponents';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import { useToggle } from "../hooks/useToggle";
-import PropTypes from 'prop-types';
 
 function OrganizationCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { toggleStates, setToggle } = useToggle({});
   const { name, id, affiliation, debut, notable_members, img } = data;
   const [hasDataFetched, setHasDataFetched] = useState(false);
+
   // Safe check to ensure notable_members is an array and has items
   const hasNotableMembers = Array.isArray(notable_members) && notable_members.length > 0;
 
@@ -19,7 +29,7 @@ function OrganizationCard({ data }) {
       fetchData(notable_members, 'notable');
       setHasDataFetched(true);
     }
-    // If data has been fetched once ona specific card, only show/hide the data, don't fetch again.
+    // If data has been fetched once on a specific card, only show/hide the data, don't fetch again.
     setToggle(buttonId);
   };
 
@@ -33,54 +43,57 @@ function OrganizationCard({ data }) {
   // }, [toggleStates, characterData.notable, id]);
 
   return (
-    <Card key={id} sx={{ maxWidth: 500 }}>
-      <CardMedia
+    <StyledOrganizationCard key={id}>
+      <StyledCardMedia
         component="img"
         alt=""
         height="140"
         image={cleanImageUrl(img) || '/placeholder.webp'}
       />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+      <StyledCardContent>
+        <StyledTypography gutterBottom variant="h5" component="div">
           {name || 'Unknown Organization'}
-        </Typography>
+        </StyledTypography>
         {affiliation ? (
-          <Typography variant="body2" color="text.secondary">
+          <StyledTypography variant="body2" color="text.secondary">
             Affiliation: {affiliation}
-          </Typography>
+          </StyledTypography>
         ) : (
-          <Typography variant="body2" color="text.secondary">
+          <StyledTypography variant="body2" color="text.secondary">
             No affiliation provided
-          </Typography>
+          </StyledTypography>
         )}
         {debut ? (
-          <Typography variant="body2" color="text.secondary">
+          <StyledTypography variant="body2" color="text.secondary">
             Debut Episode: <a href={debut} target="_blank" rel="noopener noreferrer">Episode Link</a>
-          </Typography>
+          </StyledTypography>
         ) : (
-          <Typography variant="body2" color="text.secondary">
+          <StyledTypography variant="body2" color="text.secondary">
             Debut episode information unavailable
-          </Typography>
+          </StyledTypography>
         )}
-      </CardContent>
-      <CardActions>
+      </StyledCardContent>
+      <StyledCardActions>
         {hasNotableMembers ? (
-          <Button id={toggleStates[`character-btn${id}`]} onClick={() => handleClick(`character-btn${id}`)} size="large">{toggleStates[`character-btn${id}`] ? 'hide' : 'show'} Notable Members</Button>
+          <StyledButton id={toggleStates[`character-btn${id}`]} onClick={() => handleClick(`character-btn${id}`)} size="large">
+            {toggleStates[`character-btn${id}`] ? 'hide' : 'show'} Notable Members
+          </StyledButton>
         ) : (
           <p>No known notable members</p>
         )}
-      </CardActions>
-      <ul id={id} className={toggleStates[`character-btn${id}`] ? 'show' : 'hide'}>
+      </StyledCardActions>
+
+      <ToggleableList id={id} show={toggleStates[`character-btn${id}`]}>
         {characterData.notable.map((char, index) => (
-          <li className="mb-2" key={index}>
+          <ToggleableItem key={index}>
             <span><b>Name:</b> {char.name}</span>
             <span style={{ display: 'block' }}>
               {char.age && char.age !== 'unknown' ? <><b>Age:</b> {char.age}</> : ''}
             </span>
-          </li>
+          </ToggleableItem>
         ))}
-      </ul>
-    </Card>
+      </ToggleableList>
+    </StyledOrganizationCard>
   );
 }
 
@@ -100,6 +113,5 @@ OrganizationCard.propTypes = {
     img: PropTypes.string
   }).isRequired
 };
-
 
 export default OrganizationCard;

@@ -13,7 +13,7 @@
 
 
 
-// For more complex / custom url extraction
+// For more complex/ custom url extraction
 
   // export const extractUrlPathComplex = (url, desiredValue, startsWith, theIndexOf, indexNum) => {
   //   if (url && typeof url === desiredValue && url.startsWith(startsWith)) {

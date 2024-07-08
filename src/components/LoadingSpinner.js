@@ -1,11 +1,13 @@
 import React from 'react';
-import { Container } from '@mui/material';
-import '../App.css';
+import {
+  Spinner,
+  SpinnerContainer
+} from '../styles/StyledComponents';
 
 const LoadingSpinner = () => (
-  <Container className="spinner-container">
-    <div className="spinner"></div>
-  </Container>
+  <SpinnerContainer>
+    <Spinner></Spinner>
+  </SpinnerContainer>
 );
 
 export default LoadingSpinner;

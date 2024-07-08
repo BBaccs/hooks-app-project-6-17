@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { Paper, Grid, Button, Container } from '@mui/material';
+import { Grid } from '@mui/material';
 import LoadingSpinner from './components/LoadingSpinner';
 import ErrorComponent from './components/ErrorComponent';
 import CharacterCard from './components/CharacterCard';
@@ -9,6 +9,12 @@ import LocationCard from './components/LocationCard';
 import OrganizationCard from './components/OrganizationCard';
 import EpisodeCard from './components/EpisodeCard';
 import useGeneralDataFetch from './hooks/useGeneralDataFetch';
+import {
+  StyledContainer,
+  StyledPaper,
+  ButtonContainer,
+  StyledButton
+} from './styles/StyledComponents';
 
 function App() {
   const { generalApiData, isLoading, isError, fetchGeneralApiData } = useGeneralDataFetch();
@@ -39,18 +45,17 @@ function App() {
 
   if (isLoading) return <LoadingSpinner className="spinner-container" />;
   if (isError) return <ErrorComponent message={isError} />;
-
   return (
-    <Container maxWidth="lg" style={{ marginTop: '20px' }}>
-      <Paper elevation={3} style={{ padding: '20px' }}>
+    <StyledContainer maxWidth="lg" style={{ marginTop: '20px' }}>
+      <StyledPaper elevation={3} style={{ padding: '20px' }}>
         <h1 style={{ textAlign: 'center' }}>Attack on Titan API</h1>
-        <Container maxWidth="md" className="btn-container">
-          <Button variant="contained" onClick={() => handleClick('characters')}>Characters</Button>
-          <Button variant="contained" onClick={() => handleClick('locations')}>Locations</Button>
-          <Button variant="contained" onClick={() => handleClick('organizations')}>Organizations</Button>
-          <Button variant="contained" onClick={() => handleClick('titans')}>Titans</Button>
-          <Button variant="contained" onClick={() => handleClick('episodes')}>Episodes</Button>
-        </Container>
+        <ButtonContainer maxWidth="md" className="btn-container">
+          <StyledButton variant="contained" onClick={() => handleClick('characters')}>Characters</StyledButton>
+          <StyledButton variant="contained" onClick={() => handleClick('locations')}>Locations</StyledButton>
+          <StyledButton variant="contained" onClick={() => handleClick('organizations')}>Organizations</StyledButton>
+          <StyledButton variant="contained" onClick={() => handleClick('titans')}>Titans</StyledButton>
+          <StyledButton variant="contained" onClick={() => handleClick('episodes')}>Episodes</StyledButton>
+        </ButtonContainer>
         <Grid container>
           {generalApiData.results && generalApiData.results.map((data) => (
             <Grid item xs={12} sm={6} md={6} key={data.id}>
@@ -58,8 +63,8 @@ function App() {
             </Grid>
           ))}
         </Grid>
-      </Paper>
-    </Container>
+      </StyledPaper>
+    </StyledContainer>
   );
 }
 

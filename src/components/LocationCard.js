@@ -1,16 +1,19 @@
-<<<<<<< Updated upstream
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography, Button, CardActions, CardMedia } from '@mui/material';
-=======
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
->>>>>>> Stashed changes
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
-import { extractUrlPath } from '../Utilities/extractUrlPath'
+import { extractUrlPath } from '../Utilities/extractUrlPath';
 import { useToggle } from "../hooks/useToggle";
-import PropTypes from 'prop-types';
+import { Typography } from '@mui/material';
+import {
+  StyledCard,
+  StyledCardContent,
+  StyledTypography,
+  StyledButton,
+  StyledCardActions,
+  StyledCardMedia
+} from '../styles/StyledComponents';
 
 function LocationCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
@@ -26,7 +29,7 @@ function LocationCard({ data }) {
       setHasDataFetched(true);
     }
     setToggle(buttonId);
-  }, [hasDataFetched, fetchData, notable_inhabitants, setToggle]); // These funcs won't change but it's best practice to use as dependacies
+  }, [hasDataFetched, fetchData, notable_inhabitants, setToggle]);  // These funcs won't change but it's best practice to use as dependacies
 
   const handleEpisodeClick = (buttonId) => {
     setToggle(buttonId);
@@ -42,8 +45,7 @@ function LocationCard({ data }) {
 
   const buttonId = `stateBtn${id}`;
   const isToggled = toggleStates[buttonId];
-  const hasName = useMemo(() => generalApiData.name && generalApiData.name.length > 0,
-    [generalApiData.name]);
+  const hasName = useMemo(() => generalApiData.name && generalApiData.name.length > 0, [generalApiData.name]);
 
   // Render notable inhabitants if they exist
   const renderNotableInhabitants = useMemo(() => (
@@ -58,49 +60,49 @@ function LocationCard({ data }) {
   ), [toggleStates, characterData.notable, id]);
 
   return (
-    <Card key={id} sx={{ maxWidth: 345 }}>
-      <CardMedia
+    <StyledCard key={id}>
+      <StyledCardMedia
         component="img"
         alt=""
         height="140"
         image={cleanImageUrl(img)}
       />
-      <CardContent>
+      <StyledCardContent>
         <Typography gutterBottom variant="h5" component="div">
           {name}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <StyledTypography variant="body2" color="text.secondary">
           Territory: {territory}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
+        </StyledTypography>
+        <StyledTypography variant="body2" color="text.secondary">
           Region: {region}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button
+        </StyledTypography>
+      </StyledCardContent>
+      <StyledCardActions>
+        <StyledButton
           id={buttonId}
           onClick={() => handleEpisodeClick(buttonId)}
           size="large"
         >
           {isToggled ? 'Hide' : 'Show Debut:'}
-        </Button>
+        </StyledButton>
         {isToggled && (
           <Typography>
             {hasName ? `${generalApiData.episode}: ${generalApiData.name}` : 'Unknown'}
           </Typography>
         )}
-      </CardActions>
+      </StyledCardActions>
       {notable_inhabitants && notable_inhabitants.length > 0 && (
-        <CardActions>
-          <Button id={`notablesBtn${id}`} onClick={() => handleClick(`notablesBtn${id}`)} size="large">
+        <StyledCardActions>
+          <StyledButton id={`notablesBtn${id}`} onClick={() => handleClick(`notablesBtn${id}`)} size="large">
             {toggleStates[`notablesBtn${id}`] ? 'Hide' : 'Notable People'}
-          </Button>
-        </CardActions>
+          </StyledButton>
+        </StyledCardActions>
       )}
       <Typography>
         {renderNotableInhabitants}
       </Typography>
-    </Card>
+    </StyledCard>
   );
 }
 
