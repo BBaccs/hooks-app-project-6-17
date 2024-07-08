@@ -1,11 +1,16 @@
 import React from 'react';
-import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+import { Typography, Button, Container } from '@mui/material';
 
 const ErrorComponent = ({ message }) => (
-  <Typography color="error" align="center">
-    {message}
-  </Typography>
+  <Container style={{ textAlign: 'center', marginTop: '20px' }}>
+    <Typography variant="h6" color="error">
+      {message}
+    </Typography>
+    <Button variant="contained" color="primary" onClick={() => window.location.reload()}>
+      Retry
+    </Button>
+  </Container>
 );
 
 ErrorComponent.propTypes = {
