@@ -20,25 +20,21 @@ function App() {
     }
   }, [currentType, fetchGeneralApiData]);
 
-  const handleClick = (type) => {
-    setCurrentType(type); // Trigger the useEffect
-  };
+  const handleClick = useCallback((type) => {
+    setCurrentType(type);
+  }, []);
+
+  const cardComponents = useMemo(() => ({
+    characters: CharacterCard,
+    locations: LocationCard,
+    organizations: OrganizationCard,
+    titans: TitanCard,
+    episodes: EpisodeCard,
+  }), []);
 
   const getCardComponent = (data, type) => {
-    switch (type) {
-      case 'characters':
-        return <CharacterCard data={data} />;
-      case 'titans':
-        return <TitanCard data={data} />;
-      case 'locations':
-        return <LocationCard data={data} />;
-      case 'organizations':
-        return <OrganizationCard data={data} />;
-      case 'episodes':
-        return <EpisodeCard data={data} />;
-      default:
-        return null;
-    }
+    const Component = cardComponents[type]; // [] is the dynamic version of dot notation
+    return Component ? <Component data={data} /> : null;
   };
 
   if (isLoading) return <LoadingSpinner className="spinner-container" />;
@@ -68,3 +64,26 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+
+// We can also use useCallback to memoize the entire func, but not necessarry here
+// const getCardComponent = useCallback((data, type) => {
+//   switch (type) {
+//     case 'characters':
+//       return <CharacterCard data={data} />;
+//     case 'titans':
+//       return <TitanCard data={data} />;
+//     case 'locations':
+//       return <LocationCard data={data} />;
+//     case 'organizations':
+//       return <OrganizationCard data={data} />;
+//     case 'episodes':
+//       return <EpisodeCard data={data} />;
+//     default:
+//       return null;
+//   }
+// }, []);
