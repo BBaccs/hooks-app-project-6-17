@@ -36,7 +36,13 @@ function TitanCard({ data }) {
                     Height: {height}
                 </Typography>
                 <Typography>
-                    {relatives && relatives[0] && JSON.stringify(relatives[0].family)}
+                    {relatives && relatives.length > 0 && (
+                        <ul>
+                            {relatives.map((relative, index) => (
+                                <li key={index}>{JSON.stringify(relative.family)}</li>
+                            ))}
+                        </ul>
+                    )}
                 </Typography>
                 <Typography>
                     Abilities:
