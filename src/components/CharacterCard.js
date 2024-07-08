@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import { Card, CardActions, CardContent, CardMedia, Typography, Button } from '@mui/material';
-import cleanImageUrl from '../Utilities/cleanImageUrl';
 import PropTypes from 'prop-types';
+import {
+  StyledCharacterCard,
+  StyledCardContent,
+  StyledTypography,
+  StyledButton,
+  StyledCardActions,
+  StyledCardMedia
+} from '../styles/StyledComponents';
+import cleanImageUrl from '../Utilities/cleanImageUrl';
 
 function CharacterCard({ data }) {
   const [toggleAlias, setToggleAlias] = useState(false);
@@ -9,37 +16,39 @@ function CharacterCard({ data }) {
   const subGroups = groups && groups.length > 0 ? groups[0].sub_groups : [];
 
   return (
-    <Card key={id} sx={{ maxWidth: 345, marginBottom: '50px' }}>
-      <CardMedia
+    <StyledCharacterCard key={id}>
+      <StyledCardMedia
         component="img"
         alt=""
         height="140"
         image={cleanImageUrl(img)}
       />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">{name}</Typography>
+      <StyledCardContent>
+        <StyledTypography gutterBottom variant="h5" component="div">{name}</StyledTypography>
         {height && (
-          <Typography variant="body2" color="text.secondary">Height: {height}</Typography>
+          <StyledTypography variant="body2" color="text.secondary">Height: {height}</StyledTypography>
         )}
         {age && (
-          <Typography variant="body2" color="text.secondary">Age: {age}</Typography>
+          <StyledTypography variant="body2" color="text.secondary">Age: {age}</StyledTypography>
         )}
         {roles && (
-          <Typography>Roles: {roles.join(', ')}</Typography>
+          <StyledTypography>Roles: {roles.join(', ')}</StyledTypography>
         )}
         {subGroups.length > 0 && (
-          <Typography>Sub Groups: {subGroups}</Typography>
+          <StyledTypography>Sub Groups: {subGroups}</StyledTypography>
         )}
-      </CardContent>
-      <CardActions>
-      {alias && alias.length > 0 && <Button onClick={() => setToggleAlias(!toggleAlias)} size="small">Reveal Alias</Button> }
-      </CardActions>
+      </StyledCardContent>
+      <StyledCardActions>
+        {alias && alias.length > 0 && (
+          <StyledButton onClick={() => setToggleAlias(!toggleAlias)} size="small">Reveal Alias</StyledButton>
+        )}
+      </StyledCardActions>
       {toggleAlias && (
-        <Typography style={{ marginBottom: '10px'}}>
+        <StyledTypography style={{ marginBottom: '10px' }}>
           {alias.length > 0 ? `Alias: ${alias}` : "No Alias"}
-        </Typography>
+        </StyledTypography>
       )}
-    </Card>
+    </StyledCharacterCard>
   );
 }
 
