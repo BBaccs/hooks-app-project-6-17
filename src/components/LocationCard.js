@@ -1,8 +1,14 @@
+<<<<<<< Updated upstream
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Button, CardActions, CardMedia } from '@mui/material';
+=======
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import PropTypes from 'prop-types';
+>>>>>>> Stashed changes
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
+import { extractUrlPath } from '../Utilities/extractUrlPath'
 import { useToggle } from "../hooks/useToggle";
 import PropTypes from 'prop-types';
 
@@ -13,26 +19,14 @@ function LocationCard({ data }) {
   const { toggleStates, setToggle } = useToggle({});
   const [hasDataFetched, setHasDataFetched] = useState(false);
 
-  // Function to extract URL path from a full URL
-  const extractedUrlPath = (url) => {
-    if (url && typeof url === 'string' && url.startsWith('https')) {
-      // Find the index of ".com/" add 5 to move past the length of ".com/"
-      const index = url.indexOf(".com/") + 5;
-      // Extract everything after ".com/"
-      const extractedPath = url.substring(index);
-      return extractedPath;
-    }
-    return null;
-  }
-
-  // Handler for fetching notable inhabitants and toggling state
-  const handleClick = (buttonId) => {
+  // Fetch notable inhabitants & toggling state
+  const handleClick = useCallback((buttonId) => {
     if (!hasDataFetched) {
       fetchData(notable_inhabitants, 'notable');
       setHasDataFetched(true);
     }
     setToggle(buttonId);
-  };
+  }, [hasDataFetched, fetchData, notable_inhabitants, setToggle]); // These funcs won't change but it's best practice to use as dependacies
 
   const handleEpisodeClick = (buttonId) => {
     setToggle(buttonId);
@@ -41,17 +35,18 @@ function LocationCard({ data }) {
   // Fetch general API data on component mount if debut exists
   useEffect(() => {
     if (debut && debut.length > 0) {
-      const fixedUrl = extractedUrlPath(debut);
+      const fixedUrl = extractUrlPath(debut);
       fetchGeneralApiData(fixedUrl);
     }
-  }, [debut]);
+  }, [debut, fetchGeneralApiData]);
 
   const buttonId = `stateBtn${id}`;
   const isToggled = toggleStates[buttonId];
-  const hasName = generalApiData.name && generalApiData.name.length > 0;
+  const hasName = useMemo(() => generalApiData.name && generalApiData.name.length > 0,
+    [generalApiData.name]);
 
-  // Render notable inhabs if they exist
-  const renderNotableInhabitants = () => (
+  // Render notable inhabitants if they exist
+  const renderNotableInhabitants = useMemo(() => (
     toggleStates[`notablesBtn${id}`] && characterData.notable && characterData.notable.length > 0 && (
       <ul>
         <b>Notable Inhabitants:</b>
@@ -60,7 +55,7 @@ function LocationCard({ data }) {
         ))}
       </ul>
     )
-  );
+  ), [toggleStates, characterData.notable, id]);
 
   return (
     <Card key={id} sx={{ maxWidth: 345 }}>
@@ -103,7 +98,7 @@ function LocationCard({ data }) {
         </CardActions>
       )}
       <Typography>
-        {renderNotableInhabitants()}
+        {renderNotableInhabitants}
       </Typography>
     </Card>
   );
