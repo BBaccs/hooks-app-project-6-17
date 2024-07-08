@@ -9,14 +9,14 @@ import EpisodeCard from './components/EpisodeCard';
 import useGeneralDataFetch from './hooks/useGeneralDataFetch';
 
 function App() {
-  const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch();
+  const { generalApiData, isLoading, isError, fetchGeneralApiData } = useGeneralDataFetch();
   const [currentType, setCurrentType] = useState('');
 
   useEffect(() => {
     if (currentType) {
       fetchGeneralApiData(currentType);
     }
-  }, [currentType]);
+  }, [currentType, fetchGeneralApiData]);
 
   const handleClick = (type) => {
     setCurrentType(type); // Trigger the useEffect
@@ -38,6 +38,9 @@ function App() {
         return null;
     }
   };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {isError}</div>;
 
   return (
     <Container maxWidth="lg" style={{ marginTop: '20px' }}>
@@ -61,6 +64,5 @@ function App() {
     </Container>
   );
 }
-
 
 export default App;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Card, CardContent, Typography, Button, CardActions, CardMedia } from '@mui/material';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
@@ -19,7 +19,6 @@ function LocationCard({ data }) {
       const index = url.indexOf(".com/") + 5;  
       // Extract everything after ".com/"
       const extractedPath = url.substring(index);
-      // console.log('extract', extractedPath)
       return extractedPath;
     }
     return null;
