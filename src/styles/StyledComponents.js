@@ -72,8 +72,20 @@ export const StyledOrganizationCard = styled(Card).attrs(() => ({
   margin: 10px;
 `;
 
+export const StyledTitanCard = styled(Card).attrs(() => ({
+  sx: { maxWidth: 345, marginTop: '40px' }
+}))``;
+
+export const StyledCharacterCard = styled(Card).attrs(() => ({
+  sx: { maxWidth: 345, marginBottom: '50px' }
+}))``;
+
+export const StyledEpisodeCard = styled(Card).attrs(() => ({
+  sx: { maxWidth: 345 }
+}))``;
+
 const showHideStyles = css`
-  display: ${({ show }) => (show ? 'initial' : 'none')} !important;
+  display: ${({ show }) => (show ? 'block' : 'none')} !important;
 `;
 
 export const ToggleableList = styled.ul`
