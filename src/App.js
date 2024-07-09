@@ -20,8 +20,7 @@ const App = memo(function App() {
       }
 
       let data = await response.json();
-
-      console.log(data, data.results[0].name);
+      console.log(data)
       return data;
 
     } catch (error) {
@@ -30,7 +29,7 @@ const App = memo(function App() {
   }
 
   // Example usage
-  fetchData('http://localhost:3000/db');
+  fetchData('http://localhost:3001/db');
 
   return (
     <StyledContainer maxWidth="lg" style={{ marginTop: '20px' }}>
