@@ -10,7 +10,8 @@ import {
 } from '../styles/StyledComponents';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 
-const CharacterCard = React.memo(function CharacterCard({ data }) {
+const CharacterCard = memo(function CharacterCard({ data }) {
+  console.log('CHARACTERCARD.JS re render');
   const [toggleAlias, setToggleAlias] = useState(false);
   const { id, name, height, age, roles, img, alias, groups } = data;
   const subGroups = groups && groups.length > 0 ? groups[0].sub_groups : [];
