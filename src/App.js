@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, memo } from 'react';
 import { Grid } from '@mui/material';
 import LoadingSpinner from './components/LoadingSpinner';
 import ErrorComponent from './components/ErrorComponent';
@@ -16,7 +16,7 @@ import {
   StyledButton
 } from './styles/StyledComponents';
 
-function App() {
+const App = memo(function App() {
   const { generalApiData, isLoading, isError, fetchGeneralApiData } = useGeneralDataFetch();
   const [currentType, setCurrentType] = useState('');
 
@@ -43,23 +43,6 @@ function App() {
     const Component = cardComponents[type]; // [] is the dynamic version of dot notation
     return Component ? <Component data={data} /> : null;
   }, [cardComponents]);
-  
-// const getCardComponent = useCallback((data, type) => {
-//   switch (type) {
-//     case 'characters':
-//       return <CharacterCard data={data} />;
-//     case 'titans':
-//       return <TitanCard data={data} />;
-//     case 'locations':
-//       return <LocationCard data={data} />;
-//     case 'organizations':
-//       return <OrganizationCard data={data} />;
-//     case 'episodes':
-//       return <EpisodeCard data={data} />;
-//     default:
-//       return null;
-//   }
-// }, []);
 
   if (isLoading) return <LoadingSpinner className="spinner-container" />;
   if (isError) return <ErrorComponent message={isError} />;
@@ -84,6 +67,26 @@ function App() {
       </StyledPaper>
     </StyledContainer>
   );
-}
+})
 
 export default App;
+
+
+
+
+// const getCardComponent = useCallback((data, type) => {
+//   switch (type) {
+//     case 'characters':
+//       return <CharacterCard data={data} />;
+//     case 'titans':
+//       return <TitanCard data={data} />;
+//     case 'locations':
+//       return <LocationCard data={data} />;
+//     case 'organizations':
+//       return <OrganizationCard data={data} />;
+//     case 'episodes':
+//       return <EpisodeCard data={data} />;
+//     default:
+//       return null;
+//   }
+// }, []);
