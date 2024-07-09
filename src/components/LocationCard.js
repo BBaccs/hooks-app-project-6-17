@@ -16,7 +16,6 @@ import {
 } from '../styles/StyledComponents';
 
 function LocationCard({ data }) {
-  console.log('MyComponent LocationCard re-rendered');
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch();
   const { id, name, territory, region, debut, notable_inhabitants, img } = data;
