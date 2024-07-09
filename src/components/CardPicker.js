@@ -5,12 +5,13 @@ import {
     StyledButton
 } from '../styles/StyledComponents';
 
-const CardPicker = memo(function App() {
+const CardPicker = memo(function CardPicker() {
     console.log('CARDPICKER rendered');
     const { setCurrentType } = useCardContext();
+
     const handleClick = useCallback((type) => {
         setCurrentType(type);
-    }, []);
+    }, [setCurrentType]);
 
     return (
         <>
