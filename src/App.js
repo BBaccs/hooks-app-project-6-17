@@ -74,7 +74,6 @@ export default App;
 
 
 
-
 // We can also use useCallback to memoize the entire func, but not necessarry here
 // const getCardComponent = useCallback((data, type) => {
 //   switch (type) {

@@ -38,6 +38,7 @@ function LocationCard({ data }) {
   // Fetch general API data on component mount if debut exists
   useEffect(() => {
     if (debut && debut.length > 0) {
+      console.log('hi')
       const fixedUrl = extractUrlPath(debut);
       fetchGeneralApiData(fixedUrl);
     }
