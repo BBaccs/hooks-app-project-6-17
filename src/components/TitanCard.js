@@ -10,6 +10,7 @@ import cleanImageUrl from '../Utilities/cleanImageUrl';
 import useCharacterDataFetcher from '../hooks/useCharacterDataFetcher';
 
 function TitanCard({ data }) {
+    console.log('TITANCARD re rendered')
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { name, id, height, abilities, relatives, allegiance, former_inheritors, current_inheritor, img } = data;
 

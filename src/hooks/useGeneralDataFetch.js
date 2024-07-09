@@ -7,14 +7,16 @@ export default function useGeneralDataFetch() {
     const cache = useRef({});
 
     const fetchGeneralApiData = useCallback(async (type) => {
+        // Check for and use cache
         if (cache.current[type]) {
-            console.log(cache)
+            console.log('fetchGeneralApiData: data is fetched, no cache needed', cache.current[type])
             setApiData(cache.current[type]);
             return;
         }
 
+        // First API call (no cache yet)
         if (typeof type === 'string') {
-            console.log('fetchGeneralApiData')
+            console.log('fetchGeneralApiData: No cache, fetching API data')
             const url = `https://api.attackontitanapi.com/${type}`;
             setIsLoading(true);
             setError(null);

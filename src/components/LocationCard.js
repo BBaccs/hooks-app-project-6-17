@@ -16,6 +16,7 @@ import {
 } from '../styles/StyledComponents';
 
 function LocationCard({ data }) {
+  console.log('MyComponent LocationCard re-rendered');
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch();
   const { id, name, territory, region, debut, notable_inhabitants, img } = data;
@@ -38,7 +39,6 @@ function LocationCard({ data }) {
   // Fetch general API data on component mount if debut exists
   useEffect(() => {
     if (debut && debut.length > 0) {
-      console.log('hi')
       const fixedUrl = extractUrlPath(debut);
       fetchGeneralApiData(fixedUrl);
     }

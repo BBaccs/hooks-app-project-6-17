@@ -38,10 +38,28 @@ function App() {
     episodes: EpisodeCard,
   }), []);
 
-  const getCardComponent = (data, type) => {
+  const getCardComponent = useCallback((data, type) => {
+    console.log('getcardcompnent render')
     const Component = cardComponents[type]; // [] is the dynamic version of dot notation
     return Component ? <Component data={data} /> : null;
-  };
+  }, [cardComponents]);
+  
+// const getCardComponent = useCallback((data, type) => {
+//   switch (type) {
+//     case 'characters':
+//       return <CharacterCard data={data} />;
+//     case 'titans':
+//       return <TitanCard data={data} />;
+//     case 'locations':
+//       return <LocationCard data={data} />;
+//     case 'organizations':
+//       return <OrganizationCard data={data} />;
+//     case 'episodes':
+//       return <EpisodeCard data={data} />;
+//     default:
+//       return null;
+//   }
+// }, []);
 
   if (isLoading) return <LoadingSpinner className="spinner-container" />;
   if (isError) return <ErrorComponent message={isError} />;
@@ -69,25 +87,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-
-// We can also use useCallback to memoize the entire func, but not necessarry here
-// const getCardComponent = useCallback((data, type) => {
-//   switch (type) {
-//     case 'characters':
-//       return <CharacterCard data={data} />;
-//     case 'titans':
-//       return <TitanCard data={data} />;
-//     case 'locations':
-//       return <LocationCard data={data} />;
-//     case 'organizations':
-//       return <OrganizationCard data={data} />;
-//     case 'episodes':
-//       return <EpisodeCard data={data} />;
-//     default:
-//       return null;
-//   }
-// }, []);
