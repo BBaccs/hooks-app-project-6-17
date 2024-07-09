@@ -1,18 +1,16 @@
-import React, { createContext, useState, useContext, useCallback } from 'react';
+import React, { createContext, useState, useContext, useMemo } from 'react';
 
 const CardContext = createContext();
 
 export const CardProvider = ({ children }) => {
   const [currentType, setCurrentType] = useState('');
 
-  // Memoize the setter function to ensure it doesn't change on every render
-  const memoizedSetCurrentType = useCallback((type) => {
-    setCurrentType(type);
-  }, []);
+  const value = useMemo(() => ({ currentType, setCurrentType }), [currentType]);
 
   return (
-    <CardContext.Provider value={{ currentType, setCurrentType: memoizedSetCurrentType }}>
+    <CardContext.Provider value={value}>
       {children}
+      {console.log('CardContext.Provider rendered')}
     </CardContext.Provider>
   );
 };

@@ -14,15 +14,13 @@ const CardPicker = memo(function CardPicker() {
     }, [setCurrentType]);
 
     return (
-        <>
-            <ButtonContainer maxWidth="md" className="btn-container">
-                <StyledButton variant="contained" onClick={() => handleClick('characters')}>Characters</StyledButton>
-                <StyledButton variant="contained" onClick={() => handleClick('locations')}>Locations</StyledButton>
-                <StyledButton variant="contained" onClick={() => handleClick('organizations')}>Organizations</StyledButton>
-                <StyledButton variant="contained" onClick={() => handleClick('titans')}>Titans</StyledButton>
-                <StyledButton variant="contained" onClick={() => handleClick('episodes')}>Episodes</StyledButton>
-            </ButtonContainer>
-        </>
+        <ButtonContainer maxWidth="md" className="btn-container">
+            <StyledButton variant="contained" onClick={() => handleClick('characters')}>Characters</StyledButton>
+            <StyledButton variant="contained" onClick={() => handleClick('locations')}>Locations</StyledButton>
+            <StyledButton variant="contained" onClick={() => handleClick('organizations')}>Organizations</StyledButton>
+            <StyledButton variant="contained" onClick={() => handleClick('titans')}>Titans</StyledButton>
+            <StyledButton variant="contained" onClick={() => handleClick('episodes')}>Episodes</StyledButton>
+        </ButtonContainer>
     );
 });
 
