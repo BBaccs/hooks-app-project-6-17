@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyledCharacterCard,
@@ -10,7 +10,7 @@ import {
 } from '../styles/StyledComponents';
 import cleanImageUrl from '../Utilities/cleanImageUrl';
 
-function CharacterCard({ data }) {
+const CharacterCard = React.memo(function CharacterCard({ data }) {
   const [toggleAlias, setToggleAlias] = useState(false);
   const { id, name, height, age, roles, img, alias, groups } = data;
   const subGroups = groups && groups.length > 0 ? groups[0].sub_groups : [];
@@ -50,7 +50,7 @@ function CharacterCard({ data }) {
       )}
     </StyledCharacterCard>
   );
-}
+});
 
 CharacterCard.propTypes = {
   data: PropTypes.shape({
