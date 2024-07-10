@@ -17,13 +17,13 @@ function TitanCard({ data }) {
     if (current_inheritor) {
       fetchData(current_inheritor, 'current');
     }
-  }, [current_inheritor]);
+  }, [current_inheritor, fetchData]);
 
   useEffect(() => {
     if (former_inheritors) {
       fetchData(former_inheritors, 'former');
     }
-  }, [former_inheritors]);
+  }, [former_inheritors, fetchData]);
 
   return (
     <StyledTitanCard key={id}>

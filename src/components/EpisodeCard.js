@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyledEpisodeCard,
@@ -28,14 +28,6 @@ function EpisodeCard({ data }) {
     }
     setToggle(buttonId);
   };
-
-  // useEffect(() => {
-  //   if (toggleStates[`character-btn${id}`] && characterData.notable && characterData.notable.length > 0) {
-  //     characterData.notable.forEach((member, index) => {
-  //       window.localStorage.setItem(`Character List ${id}-${index}`, JSON.stringify([member.name, member.age]));
-  //     });
-  //   }
-  // }, [toggleStates, characterData.notable, id]);
 
   return (
     <StyledEpisodeCard key={id}>
@@ -86,3 +78,12 @@ EpisodeCard.propTypes = {
 };
 
 export default EpisodeCard;
+
+
+  // useEffect(() => {
+  //   if (toggleStates[`character-btn${id}`] && characterData.notable && characterData.notable.length > 0) {
+  //     characterData.notable.forEach((member, index) => {
+  //       window.localStorage.setItem(`Character List ${id}-${index}`, JSON.stringify([member.name, member.age]));
+  //     });
+  //   }
+  // }, [toggleStates, characterData.notable, id]);
