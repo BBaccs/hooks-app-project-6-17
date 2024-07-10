@@ -73,5 +73,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 
-Don't want too run it locally? Check out an older version of the app on Netlify here: https://jazzy-dusk-749760.netlify.app ](https://aot-api.netlify.app/
+Don't want too run it locally? Check out an older version of the app on Netlify here:   https://aot-api.netlify.app 
 I'm sorry it's so ugly, I have not had time to style it!
