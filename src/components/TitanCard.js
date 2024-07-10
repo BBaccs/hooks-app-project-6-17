@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyledTitanCard,
@@ -13,17 +13,20 @@ function TitanCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { name, id, height, abilities, relatives, allegiance, former_inheritors, current_inheritor, img } = data;
 
-  useEffect(() => {
-    if (current_inheritor) {
-      fetchData(current_inheritor, 'current');
-    }
-  }, [current_inheritor, fetchData]);
+  const memoizedCurrentInheritor = useMemo(() => current_inheritor, [current_inheritor]);
+  const memoizedFormerInheritors = useMemo(() => former_inheritors, [former_inheritors]);
 
   useEffect(() => {
-    if (former_inheritors) {
-      fetchData(former_inheritors, 'former');
+    if (memoizedCurrentInheritor) {
+      fetchData(memoizedCurrentInheritor, 'current');
     }
-  }, [former_inheritors, fetchData]);
+  }, [memoizedCurrentInheritor, fetchData]);
+
+  useEffect(() => {
+    if (memoizedFormerInheritors) {
+      fetchData(memoizedFormerInheritors, 'former');
+    }
+  }, [memoizedFormerInheritors, fetchData]);
 
   return (
     <StyledTitanCard key={id}>
