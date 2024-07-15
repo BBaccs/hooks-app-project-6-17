@@ -52,14 +52,11 @@ export default function useGeneralDataFetch() {
             return;
         }
 
-        console.log('first call', episodeCache.current[episodeId])
         // First API call (no cache yet)
         if (typeof episodeId === 'string') {
-            // https://api.attackontitanapi.com/episodes/10
             const url = `https://api.attackontitanapi.com/${episodeId}`;
             setIsEpisodeLoading(true);
             setEpisodeError(null);
-            console.log(url, 'URL AAA')
             try {
                 const response = await fetch(url);
                 if (!response.ok) {
@@ -68,7 +65,7 @@ export default function useGeneralDataFetch() {
                 const apiData = await response.json();
                 episodeCache.current[episodeId] = apiData; // Cache the response
                 setEpisodeData(apiData);
-                console.log('episodeCache.current[episodeId]', episodeCache.current[episodeId], apiData.name, apiData.episode);
+                console.log('Fetched and cached episode data:', episodeCache.current[episodeId], apiData.name, apiData.episode);
             } catch (error) {
                 setEpisodeError(error.message);
                 console.error('There was a problem with the fetch operation:', error);
@@ -80,10 +77,10 @@ export default function useGeneralDataFetch() {
         }
     }, []);
 
-    return {
-        generalApiData,
-        isLoading,
-        isError,
+    return { 
+        generalApiData, 
+        isLoading, 
+        isError, 
         fetchGeneralApiData,
         episodeData,
         isEpisodeLoading,
