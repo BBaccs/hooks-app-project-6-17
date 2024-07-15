@@ -17,10 +17,12 @@ import {
 
 function LocationCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
-  const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch();
-  const { id, name, territory, region, debut, notable_inhabitants, img } = data;
+  const { id, name, territory, region, debut, notable_inhabitants, img } = data; // original data
+  const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch(); // second api calls
   const { toggleStates, setToggle } = useToggle({});
   const [hasDataFetched, setHasDataFetched] = useState(false);
+
+  // console.log('characterData', characterData.notable)
 
   // Fetch notable inhabitants & toggling state
   const handleClick = useCallback((buttonId) => {
@@ -40,6 +42,7 @@ function LocationCard({ data }) {
     if (debut && debut.length > 0) {
       const fixedUrl = extractUrlPath(debut);
       fetchGeneralApiData(fixedUrl);
+      console.log('fetchGeneralApiData BEING USED BY USEFFECT FIOR DEBUT HIIIIIIIIIIII')
     }
   }, [debut, fetchGeneralApiData]);
 
@@ -69,7 +72,7 @@ function LocationCard({ data }) {
       />
       <StyledCardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {name}
+          {name} {id}
         </Typography>
         <StyledTypography variant="body2" color="text.secondary">
           Territory: {territory}

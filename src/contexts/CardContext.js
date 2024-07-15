@@ -10,7 +10,6 @@ export const CardProvider = ({ children }) => {
   return (
     <CardContext.Provider value={value}>
       {children}
-      {console.log('CardContext.Provider rendered')}
     </CardContext.Provider>
   );
 };

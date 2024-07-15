@@ -1,4 +1,6 @@
 import { useState, useCallback } from 'react';
+import { useRef } from 'react';
+import useGeneralDataFetch from './useGeneralDataFetch';
 
 function separateUrls(urlArray) {
     const validUrlsArr = urlArray.filter(url => typeof url === 'string' && url.startsWith('https'));
@@ -10,16 +12,18 @@ function separateUrls(urlArray) {
 
 export default function useCharacterDataFetcher() {
     const [characterData, setCharacterData] = useState({ current: [], former: [], notable: [] });
+    const cache = useRef({});
 
     const fetchData = useCallback(async (urlData, charType) => {
         const urlArr = Array.isArray(urlData) ? urlData : urlData.split(",");
         const { validUrlsArr, invalidUrlObjArr } = separateUrls(urlArr);
-
+        console.log('urldata', urlData, 'chartype', charType);
         if (validUrlsArr.length === 0 && invalidUrlObjArr.length === 0) {
             return;
         }
 
         try {
+
             const promises = validUrlsArr.map(url => fetch(url).then(response => {
                 if (!response.ok) {
                     console.error('Network response was not ok: ' + response.statusText);
@@ -30,7 +34,7 @@ export default function useCharacterDataFetcher() {
 
             let results = await Promise.all(promises);
             results = results.concat(invalidUrlObjArr);
-
+            console.log('results', results);
             setCharacterData(prevProps => ({
                 ...prevProps,
                 [charType]: results

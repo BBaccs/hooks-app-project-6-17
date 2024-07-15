@@ -30,7 +30,6 @@ const CardGenerator = memo(function App() {
     }), []);
 
     const getCardComponent = useCallback((data, type) => {
-        console.log('getCardComponent called');
         const Component = cardComponents[type];
         return Component ? <Component data={data} /> : null;
     }, [cardComponents]);

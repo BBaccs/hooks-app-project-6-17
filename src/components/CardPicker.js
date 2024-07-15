@@ -6,7 +6,7 @@ import {
 } from '../styles/StyledComponents';
 
 const CardPicker = memo(function CardPicker() {
-    console.log('CARDPICKER rendered');
+    // console.log('CARDPICKER rendered');
     const { setCurrentType } = useCardContext();
 
     const handleClick = useCallback((type) => {

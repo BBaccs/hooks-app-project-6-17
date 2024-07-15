@@ -7,16 +7,19 @@ export default function useGeneralDataFetch() {
     const cache = useRef({});
 
     const fetchGeneralApiData = useCallback(async (type) => {
+        console.log('TYPE HIIIIIIIIIIII', type)
         // Check for and use cache
         if (cache.current[type]) {
-            console.log('fetchGeneralApiData: cache used', cache.current[type])
+            // console.log('fetchGeneralApiData: cache used', cache.current[type].info, cache.current[type].results)
+            const firstEntry = Object.entries(cache.current[type].results);
+            // console.log('First entry:', firstEntry[2][1].notable_inhabitants);
+            console.log('we cacchhee!!')
             setApiData(cache.current[type]);
             return;
         }
-
         // First API call (no cache yet)
-        if (typeof type === 'string') {
-            console.log('fetchGeneralApiData: No cache yet, fetching API data')
+        else if (typeof type === 'string') {
+            // console.log('fetchGeneralApiData: No cache yet, fetching API data')
             const url = `https://api.attackontitanapi.com/${type}`;
             setIsLoading(true);
             setError(null);
@@ -28,6 +31,7 @@ export default function useGeneralDataFetch() {
                 const apiData = await response.json();
                 cache.current[type] = apiData; // Cache the response
                 setApiData(apiData);
+                console.log('NO CACHEEEE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', cache.current[type].results, apiData)
             } catch (error) {
                 setError(error.message);
                 console.error('There was a problem with the fetch operation:', error);
