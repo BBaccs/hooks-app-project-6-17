@@ -4,22 +4,18 @@ export default function useGeneralDataFetch() {
     const [generalApiData, setApiData] = useState({ results: [] });
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setError] = useState(null);
-    const cache = useRef({});
+    const generalCache = useRef({});
 
     const fetchGeneralApiData = useCallback(async (type) => {
-        console.log('TYPE HIIIIIIIIIIII', type)
         // Check for and use cache
-        if (cache.current[type]) {
-            // console.log('fetchGeneralApiData: cache used', cache.current[type].info, cache.current[type].results)
-            const firstEntry = Object.entries(cache.current[type].results);
-            // console.log('First entry:', firstEntry[2][1].notable_inhabitants);
-            console.log('we cacchhee!!')
-            setApiData(cache.current[type]);
+        if (generalCache.current[type]) {
+            console.log('Using cached general data for:', type);
+            setApiData(generalCache.current[type]);
             return;
         }
+
         // First API call (no cache yet)
-        else if (typeof type === 'string') {
-            // console.log('fetchGeneralApiData: No cache yet, fetching API data')
+        if (typeof type === 'string') {
             const url = `https://api.attackontitanapi.com/${type}`;
             setIsLoading(true);
             setError(null);
@@ -29,9 +25,9 @@ export default function useGeneralDataFetch() {
                     throw new Error('Network response was not ok ' + response.statusText);
                 }
                 const apiData = await response.json();
-                cache.current[type] = apiData; // Cache the response
+                generalCache.current[type] = apiData; // Cache the response
                 setApiData(apiData);
-                console.log('NO CACHEEEE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', cache.current[type].results, apiData)
+                console.log('NO CACHEEEE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', generalCache, apiData);
             } catch (error) {
                 setError(error.message);
                 console.error('There was a problem with the fetch operation:', error);
@@ -43,5 +39,55 @@ export default function useGeneralDataFetch() {
         }
     }, []);
 
-    return { generalApiData, isLoading, isError, fetchGeneralApiData };
+    const [episodeData, setEpisodeData] = useState({ results: [] });
+    const [isEpisodeLoading, setIsEpisodeLoading] = useState(false);
+    const [isEpisodeError, setEpisodeError] = useState(null);
+    const episodeCache = useRef({});
+
+    const fetchEpisodeData = useCallback(async (episodeId) => {
+        // Check for and use cache
+        if (episodeCache.current[episodeId]) {
+            console.log('Using cached episode data for:', episodeId);
+            setEpisodeData(episodeCache.current[episodeId]);
+            return;
+        }
+
+        console.log('first call', episodeCache.current[episodeId])
+        // First API call (no cache yet)
+        if (typeof episodeId === 'string') {
+            // https://api.attackontitanapi.com/episodes/10
+            const url = `https://api.attackontitanapi.com/${episodeId}`;
+            setIsEpisodeLoading(true);
+            setEpisodeError(null);
+            console.log(url, 'URL AAA')
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                const apiData = await response.json();
+                episodeCache.current[episodeId] = apiData; // Cache the response
+                setEpisodeData(apiData);
+                console.log('episodeCache.current[episodeId]', episodeCache.current[episodeId], apiData.name, apiData.episode);
+            } catch (error) {
+                setEpisodeError(error.message);
+                console.error('There was a problem with the fetch operation:', error);
+            } finally {
+                setIsEpisodeLoading(false);
+            }
+        } else {
+            console.error('No Action required: Invalid episode ID provided to fetchEpisodeData from AOT API:', episodeId);
+        }
+    }, []);
+
+    return {
+        generalApiData,
+        isLoading,
+        isError,
+        fetchGeneralApiData,
+        episodeData,
+        isEpisodeLoading,
+        isEpisodeError,
+        fetchEpisodeData
+    };
 }

@@ -18,7 +18,7 @@ import {
 function LocationCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { id, name, territory, region, debut, notable_inhabitants, img } = data; // original data
-  const { generalApiData, fetchGeneralApiData } = useGeneralDataFetch(); // second api calls
+  const { generalApiData, episodeData, fetchEpisodeData, fetchGeneralApiData } = useGeneralDataFetch(); // second api calls
   const { toggleStates, setToggle } = useToggle({});
   const [hasDataFetched, setHasDataFetched] = useState(false);
 
@@ -41,14 +41,13 @@ function LocationCard({ data }) {
   useEffect(() => {
     if (debut && debut.length > 0) {
       const fixedUrl = extractUrlPath(debut);
-      fetchGeneralApiData(fixedUrl);
-      console.log('fetchGeneralApiData BEING USED BY USEFFECT FIOR DEBUT HIIIIIIIIIIII')
+      fetchEpisodeData(fixedUrl);
     }
-  }, [debut, fetchGeneralApiData]);
+  }, [debut, fetchEpisodeData, fetchGeneralApiData]);
 
   const buttonId = `stateBtn${id}`;
   const isToggled = toggleStates[buttonId];
-  const hasName = useMemo(() => generalApiData.name && generalApiData.name.length > 0, [generalApiData.name]);
+  const hasName = useMemo(() => episodeData.name && episodeData.name.length > 0, [episodeData.name]);
 
   // Render notable inhabitants if they exist
   const renderNotableInhabitants = useMemo(() => (
@@ -91,7 +90,7 @@ function LocationCard({ data }) {
         </StyledButton>
         {isToggled && (
           <Typography>
-            {hasName ? `${generalApiData.episode}: ${generalApiData.name}` : 'Unknown'}
+            {hasName ? `${episodeData.episode}: ${episodeData.name}` : 'Unknown'}
           </Typography>
         )}
       </StyledCardActions>

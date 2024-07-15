@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
 import { useRef } from 'react';
-import useGeneralDataFetch from './useGeneralDataFetch';
 
 function separateUrls(urlArray) {
     const validUrlsArr = urlArray.filter(url => typeof url === 'string' && url.startsWith('https'));
