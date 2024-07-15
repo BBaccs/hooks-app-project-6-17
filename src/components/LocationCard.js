@@ -18,32 +18,31 @@ import {
 function LocationCard({ data }) {
   const { characterData, fetchData } = useCharacterDataFetcher();
   const { id, name, territory, region, debut, notable_inhabitants, img } = data; // original data
-  const { generalApiData, episodeData, fetchEpisodeData, fetchGeneralApiData } = useGeneralDataFetch(); // second api calls
+  const { episodeData, fetchEpisodeData } = useGeneralDataFetch(); // second api calls
   const { toggleStates, setToggle } = useToggle({});
   const [hasDataFetched, setHasDataFetched] = useState(false);
 
-  // console.log('characterData', characterData.notable)
-
-  // Fetch notable inhabitants & toggling state
   const handleClick = useCallback((buttonId) => {
     if (!hasDataFetched) {
       fetchData(notable_inhabitants, 'notable');
       setHasDataFetched(true);
     }
     setToggle(buttonId);
-  }, [hasDataFetched, fetchData, notable_inhabitants, setToggle]);  // These funcs won't change but it's best practice to use as dependacies
+  }, [hasDataFetched, fetchData, notable_inhabitants, setToggle]);
 
   const handleEpisodeClick = (buttonId) => {
     setToggle(buttonId);
   }
 
-  // Fetch general API data on component mount if debut exists
+  // Fetch episode data on component mount if debut exists
   useEffect(() => {
+    console.log('debut:', debut);
     if (debut && debut.length > 0) {
       const fixedUrl = extractUrlPath(debut);
+      console.log('Fetching episode data for URL:', fixedUrl);
       fetchEpisodeData(fixedUrl);
     }
-  }, [debut, fetchEpisodeData, fetchGeneralApiData]);
+  }, [debut, fetchEpisodeData]);
 
   const buttonId = `stateBtn${id}`;
   const isToggled = toggleStates[buttonId];

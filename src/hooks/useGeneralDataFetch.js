@@ -7,14 +7,13 @@ export default function useGeneralDataFetch() {
     const generalCache = useRef({});
 
     const fetchGeneralApiData = useCallback(async (type) => {
-        // Check for and use cache
+        console.log('Fetching general data for type:', type);
         if (generalCache.current[type]) {
             console.log('Using cached general data for:', type);
             setApiData(generalCache.current[type]);
             return;
         }
 
-        // First API call (no cache yet)
         if (typeof type === 'string') {
             const url = `https://api.attackontitanapi.com/${type}`;
             setIsLoading(true);
@@ -27,7 +26,7 @@ export default function useGeneralDataFetch() {
                 const apiData = await response.json();
                 generalCache.current[type] = apiData; // Cache the response
                 setApiData(apiData);
-                console.log('NO CACHEEEE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', generalCache, apiData);
+                console.log('Fetched general data:', generalCache.current);
             } catch (error) {
                 setError(error.message);
                 console.error('There was a problem with the fetch operation:', error);
@@ -35,7 +34,7 @@ export default function useGeneralDataFetch() {
                 setIsLoading(false);
             }
         } else {
-            console.error('No Action required: Invalid type provided to fetchGeneralApiData from AOT API:', type);
+            console.error('Invalid type provided to fetchGeneralApiData from AOT API:', type);
         }
     }, []);
 
@@ -45,14 +44,18 @@ export default function useGeneralDataFetch() {
     const episodeCache = useRef({});
 
     const fetchEpisodeData = useCallback(async (episodeId) => {
-        // Check for and use cache
-        if (episodeCache.current[episodeId]) {
-            console.log('Using cached episode data for:', episodeId);
-            setEpisodeData(episodeCache.current[episodeId]);
+        console.log('Fetching episode data for:', episodeId);
+        const cacheKey = `episodes/${episodeId}`;
+
+        // Log the entire cache to verify the structure
+        console.log('Current episode cache:', episodeCache.current);
+
+        if (episodeCache.current[cacheKey]) {
+            console.log('Using cached episode data for:', cacheKey);
+            setEpisodeData(episodeCache.current[cacheKey]);
             return;
         }
 
-        // First API call (no cache yet)
         if (typeof episodeId === 'string') {
             const url = `https://api.attackontitanapi.com/${episodeId}`;
             setIsEpisodeLoading(true);
@@ -63,9 +66,9 @@ export default function useGeneralDataFetch() {
                     throw new Error('Network response was not ok ' + response.statusText);
                 }
                 const apiData = await response.json();
-                episodeCache.current[episodeId] = apiData; // Cache the response
+                episodeCache.current[cacheKey] = apiData; // Cache the response
                 setEpisodeData(apiData);
-                console.log('Fetched and cached episode data:', episodeCache.current[episodeId], apiData.name, apiData.episode);
+                console.log('Fetched and cached episode data:', apiData);
             } catch (error) {
                 setEpisodeError(error.message);
                 console.error('There was a problem with the fetch operation:', error);
@@ -73,7 +76,7 @@ export default function useGeneralDataFetch() {
                 setIsEpisodeLoading(false);
             }
         } else {
-            console.error('No Action required: Invalid episode ID provided to fetchEpisodeData from AOT API:', episodeId);
+            console.error('Invalid episode ID provided to fetchEpisodeData from AOT API:', episodeId);
         }
     }, []);
 
