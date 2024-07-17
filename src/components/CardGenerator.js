@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback, useMemo, memo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import LoadingSpinner from './LoadingSpinner';
 import ErrorComponent from './ErrorComponent';
 import CharacterCard from './CharacterCard';
@@ -7,22 +8,19 @@ import LocationCard from './LocationCard';
 import OrganizationCard from './OrganizationCard';
 import EpisodeCard from './EpisodeCard';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
-import { useCardContext } from '../contexts/CardContext';
 import { Grid } from '@mui/material';
-import { useDispatch } from 'react-redux';
 import { setActiveCard } from '../actionCreators';
 
-const CardGenerator = memo(function App() {
-    const { currentType } = useCardContext();
-    const { generalApiData, isLoading, isError, fetchGeneralApiData } = useGeneralDataFetch();
+const CardGenerator = memo(function CardGenerator() {
     const dispatch = useDispatch();
+    const currentType = useSelector(state => state.button.currentType);
+    const { generalApiData, isLoading, isError, fetchGeneralApiData } = useGeneralDataFetch();
 
     useEffect(() => {
         if (currentType) {
             fetchGeneralApiData(currentType);
         }
     }, [currentType, fetchGeneralApiData]);
-
 
     const cardComponents = useMemo(() => ({
         characters: CharacterCard,

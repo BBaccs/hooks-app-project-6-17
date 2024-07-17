@@ -1,13 +1,12 @@
 import { combineReducers } from 'redux';
 import { actionTypes } from './actionCreators';
 
-// Define initial state
 const initialState = {
-    activeCardType: null,
-    data: null
+    activeCardType: '',
+    data: null,
+    currentType: ''
 };
 
-// Define the buttonReducer
 const buttonReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_ACTIVE_CARD:
@@ -16,15 +15,18 @@ const buttonReducer = (state = initialState, action) => {
                 activeCardType: action.payload.cardType,
                 data: action.payload.data
             };
+        case actionTypes.SET_CURRENT_TYPE:
+            return {
+                ...state,
+                currentType: action.payload
+            };
         default:
             return state;
     }
 };
 
-// Combine reducers
 const rootReducer = combineReducers({
-    button: buttonReducer,
-    // Add other reducers here
+    button: buttonReducer
 });
 
 export default rootReducer;
