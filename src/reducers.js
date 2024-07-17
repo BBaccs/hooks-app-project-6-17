@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { actionTypes, setActiveCard} from './actionCreators';
+import { actionTypes } from './actionCreators';
 
 // Define initial state
 const initialState = {

@@ -9,7 +9,6 @@ import EpisodeCard from './EpisodeCard';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
 import { useCardContext } from '../contexts/CardContext';
 import { Grid } from '@mui/material';
-import store from '../store';
 import { useDispatch } from 'react-redux';
 import { setActiveCard } from '../actionCreators';
 

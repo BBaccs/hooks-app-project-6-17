@@ -1,5 +1,6 @@
 import React, { useCallback, memo } from 'react';
-import { useCardContext } from '../contexts/CardContext';
+import { useDispatch } from 'react-redux';
+import { setActiveCard } from '../actionCreators';
 import {
     ButtonContainer,
     StyledButton
@@ -7,11 +8,11 @@ import {
 
 const CardPicker = memo(function CardPicker() {
     console.log('CARDPICKER rendered');
-    const { setCurrentType } = useCardContext();
+    const dispatch = useDispatch();
 
     const handleClick = useCallback((type) => {
-        setCurrentType(type);
-    }, [setCurrentType]);
+        dispatch(setActiveCard(type));
+    }, []);
 
     return (
         <ButtonContainer maxWidth="md" className="btn-container">
