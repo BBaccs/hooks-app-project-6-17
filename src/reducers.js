@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
-import LoadingSpinner from './LoadingSpinner';
-import ErrorComponent from './ErrorComponent';
-import CharacterCard from './CharacterCard';
-import TitanCard from './TitanCard';
-import LocationCard from './LocationCard';
-import OrganizationCard from './OrganizationCard';
-import EpisodeCard from './EpisodeCard';
-import { SET_ACTIVE_CARD } from './actionCreators';
+import { actionTypes, setActiveCard} from './actionCreators';
 
+// Define initial state
+const initialState = {
+    activeCardType: null,
+    data: null
+};
+
+// Define the buttonReducer
 const buttonReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_ACTIVE_CARD:
@@ -21,9 +21,10 @@ const buttonReducer = (state = initialState, action) => {
     }
 };
 
-
+// Combine reducers
 const rootReducer = combineReducers({
-    example: exampleReducer,
+    button: buttonReducer,
+    // Add other reducers here
 });
 
 export default rootReducer;

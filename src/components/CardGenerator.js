@@ -9,10 +9,14 @@ import EpisodeCard from './EpisodeCard';
 import useGeneralDataFetch from '../hooks/useGeneralDataFetch';
 import { useCardContext } from '../contexts/CardContext';
 import { Grid } from '@mui/material';
+import store from '../store';
+import { useDispatch } from 'react-redux';
+import { setActiveCard } from '../actionCreators';
 
 const CardGenerator = memo(function App() {
     const { currentType } = useCardContext();
     const { generalApiData, isLoading, isError, fetchGeneralApiData } = useGeneralDataFetch();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (currentType) {
@@ -30,10 +34,12 @@ const CardGenerator = memo(function App() {
     }), []);
 
     const getCardComponent = useCallback((data, type) => {
+        dispatch(setActiveCard(type, data));
+        console.log(store)
         console.log('getCardComponent called');
         const Component = cardComponents[type];
         return Component ? <Component data={data} /> : null;
-    }, [cardComponents]);
+    }, [cardComponents, dispatch]);
 
     if (isLoading) return <LoadingSpinner className="spinner-container" />;
     if (isError) return <ErrorComponent message={isError} />;

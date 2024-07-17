@@ -1,10 +1,10 @@
 // Define action types
-const actionTypes = {
+export const actionTypes = {
     SET_ACTIVE_CARD: 'SET_ACTIVE_CARD'
 };
 
-// Define initial state
-const initialState = {
-    activeCardType: 'CHARACTERS',
-    data: null
-};
+// Action creator for setting the active card
+export const setActiveCard = (cardType, data) => ({
+    type: actionTypes.SET_ACTIVE_CARD,
+    payload: { cardType, data }
+});
