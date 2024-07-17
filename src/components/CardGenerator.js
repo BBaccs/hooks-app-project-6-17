@@ -35,7 +35,6 @@ const CardGenerator = memo(function App() {
 
     const getCardComponent = useCallback((data, type) => {
         dispatch(setActiveCard(type, data));
-        console.log(store)
         console.log('getCardComponent called');
         const Component = cardComponents[type];
         return Component ? <Component data={data} /> : null;
