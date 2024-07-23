@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 function separateUrls(urlArray) {
     const validUrlsArr = urlArray.filter(url => typeof url === 'string' && url.startsWith('https'));
@@ -11,7 +11,7 @@ function separateUrls(urlArray) {
 export default function useCharacterDataFetcher() {
     const [characterData, setCharacterData] = useState({ current: [], former: [], notable: [] });
 
-    const fetchData = useCallback(async (urlData, charType) => {
+    const fetchData = async (urlData, charType) => {
         const urlArr = Array.isArray(urlData) ? urlData : urlData.split(",");
         const { validUrlsArr, invalidUrlObjArr } = separateUrls(urlArr);
 
@@ -39,7 +39,7 @@ export default function useCharacterDataFetcher() {
             console.error('There was a problem with the fetch operation:', error);
             setCharacterData([]);
         }
-    }, []);
+    };
 
     return { characterData, fetchData };
 }

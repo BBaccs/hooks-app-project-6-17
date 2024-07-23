@@ -29,11 +29,11 @@ const CardGenerator = memo(function App() {
         episodes: EpisodeCard,
     }), []);
 
-    const getCardComponent = useCallback((data, type) => {
+    const getCardComponent = (data, type) => {
         console.log('getCardComponent called');
         const Component = cardComponents[type];
         return Component ? <Component data={data} /> : null;
-    }, [cardComponents]);
+    };
 
     if (isLoading) return <LoadingSpinner className="spinner-container" />;
     if (isError) return <ErrorComponent message={isError} />;

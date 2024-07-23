@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 export default function useGeneralDataFetch() {
     const [generalApiData, setApiData] = useState({ results: [] });
@@ -6,7 +6,7 @@ export default function useGeneralDataFetch() {
     const [isError, setError] = useState(null);
     const cache = useRef({});
 
-    const fetchGeneralApiData = useCallback(async (type) => {
+    const fetchGeneralApiData = async (type) => {
         // Check for and use cache
         if (cache.current[type]) {
             console.log('fetchGeneralApiData: cache used', cache.current[type])
@@ -37,7 +37,7 @@ export default function useGeneralDataFetch() {
         } else {
             console.error('No Action required: Invalid type provided to fetchGeneralApiData from AOT API:', type);
         }
-    }, []);
+    };
 
     return { generalApiData, isLoading, isError, fetchGeneralApiData };
 }
